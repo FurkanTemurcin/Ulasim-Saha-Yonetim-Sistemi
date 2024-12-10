@@ -1,0 +1,31 @@
+﻿@model Portal.ViewModels.HomeIndexViewModel
+
+@{
+    Layout = "_Layout";
+    
+    // Hariç tutulacak action adları
+    var excludedActions = new HashSet<string> { "Edit", "Duzenle", "Delete", "Sil","DeleteConfirmed", "SilOnayla","EditUser","DeleteUser","ConfirmDeleteUser","Update" };
+}
+<head>
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+</head>
+
+<h2>Yetkinizin Olduğu Sayfalar</h2>
+<div id="sidebar">
+    <ul>
+        @foreach (var permission in Model.Permissions)
+        {
+            // Action adı hariç tutulanlar listesinde değilse listele
+            if (!excludedActions.Contains(permission.Action))
+            {
+                <li>
+                    <a asp-controller="@permission.Controller" asp-action="@permission.Action">
+                        @permission.Controller - @permission.Action
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+<script src="~/js/notification.js"></script>

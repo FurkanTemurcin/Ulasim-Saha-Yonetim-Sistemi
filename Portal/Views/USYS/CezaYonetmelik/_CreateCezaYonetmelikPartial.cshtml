@@ -1,0 +1,94 @@
+@model Portal.ViewModels.USYS.CreateCezaYonetmelikViewModel
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+
+    .is-invalid {
+        border: 2px solid red;
+    }
+
+</style>
+
+
+
+<form asp-action="Create" method="post" class="form-horizontal" onsubmit="return validateForm()">
+    <div class="form-group">
+        <label for="Madde" class="control-label">Madde</label>
+        <input type="number" asp-for="Madde" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Fikra" class="control-label">Fıkra</label>
+        <input type="number" asp-for="Fikra" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Bent" class="control-label">Bent</label>
+        <input type="text" asp-for="Bent" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Yonetmelik" class="control-label">Yönetmelik</label>
+        <textarea asp-for="Yonetmelik" class="form-control" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="CezaPuani" class="control-label">Ceza Puanı</label>
+        <input type="number" asp-for="CezaPuani" class="form-control" required />
+    </div>
+
+    <!-- Plaka Türü Dropdown -->
+    <div class="form-group">
+        <label for="PlakaTuruId" class="control-label">Plaka Türü</label>
+        <select id="PlakaTuruId" name="PlakaTuruId" class="form-control" required>
+            <option value="">Plaka Türü Seçin</option>
+            @foreach (var item in ViewBag.PlakaTurleri)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="AnahtarKelime" class="control-label">Anahtar Kelime</label>
+        <input type="text" asp-for="AnahtarKelime" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+</form>
+<script>
+    function validateForm() {
+        // Formdaki tüm giriş alanlarını al
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, textarea, select');
+        let isValid = true;
+
+        // Her bir giriş alanını kontrol et
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('is-invalid'); // Eksik alanlara uyarı stili ekle
+                alert(`${input.previousElementSibling.innerText} alanı boş bırakılamaz!`);
+                input.focus();
+                return false; // İlk boş alanda dur
+            } else {
+                input.classList.remove('is-invalid'); // Geçerli alanlardan uyarı stilini kaldır
+            }
+        });
+
+        return isValid; // Eğer tüm alanlar doluysa form gönderilir
+    }
+</script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

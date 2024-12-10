@@ -1,0 +1,368 @@
+@model Portal.Models.USYS.Denetim
+
+
+<head>
+    <link rel="stylesheet" href="~/css/cezayonedit.css" />
+</head>
+<style>
+    .custom-title {
+        font-size: 2rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;}
+
+        .photo-gallery {
+    display: flex;
+    flex-wrap: wrap; /* Fotoğrafların sarmasını sağlar */
+    gap: 5px; /* Fotoğraflar arasında boşluk */
+    justify-content: flex-start; /* Fotoğrafları sola hizalar */
+}
+
+.photo-gallery img {
+    width: 70px;  /* Fotoğrafın genişliği */
+    height: 70px; /* Fotoğrafın yüksekliği */
+    cursor: pointer;
+}
+
+/* Bu sınıf, bir satıra 5 fotoğrafı sığdırmak için kullanılır */
+.photo-gallery img:nth-child(5n) {
+    margin-right: 0;  /* 5. fotoğrafın sağında boşluk bırakmaz */
+}
+
+
+    
+</style>
+@{
+    var denetimGecmisiList = ((IEnumerable<dynamic>)ViewBag.DenetimGecmisi)
+        .OrderByDescending(gecmis => gecmis.DurumTarihi ?? gecmis.OlusturmaTarihi) // Sıralamayı tersine yapıyoruz
+        .ToList();
+}
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link active" id="ceza-bilgileri-tab" data-bs-toggle="tab" href="#cezaBilgileri" role="tab" aria-controls="cezaBilgileri" aria-selected="true">
+            Ceza Bilgileri
+        </a>
+        <a class="nav-link" id="islemler-tab" data-bs-toggle="modal" data-bs-target="#islemlerModal" role="tab" aria-controls="islemler" aria-selected="false">
+            İşlemler
+        </a>
+    </div>
+</nav>
+
+<form asp-controller="CezaYonetimi" asp-action="AddDenetimGecmisi" method="post">
+    <div class="card">
+        <div class="card-header" onclick="toggleAracBilgileri()">
+            <h3 class="collapsible card-title custom-title">Araç Bilgileri</h3>
+        </div>
+        <div class="card-body collapsible-content" id="arac-bilgileri">
+            <div class="grid-container">
+                <!-- Sol Sütun - İlk 4 Alan -->
+                <div class="left-column">
+                    <div class="form-group">
+                        <label>Araç Plakası</label>
+                        <input type="text" class="form-control" value="@Model.AracPlaka?.PlakaNumarasi" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Plaka Türü</label>
+                        <input type="text" class="form-control" value="@Model.AracPlaka?.PlakaTuru?.Name" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ceza Kesim Tarihi</label>
+                        <input type="text" class="form-control" value="@Model.OlusturmaTarihi.ToString("dd/MM/yyyy")" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tutanak Türü</label>
+                        <input type="text" class="form-control" value="@Model.DenetimTuru?.Name" readonly />
+                    </div>
+                </div>
+
+                <!-- Sağ Sütun - Sonraki 3 Alan -->
+                <div class="right-column">
+
+                    <div class="form-group">
+                        <label>Araç Sahibi Adı</label>
+                        <input type="text" class="form-control" value="@Model.AracPlaka?.AracSahipleri.FirstOrDefault()?.PlakaSahip?.Ad" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Araç Sahibi Soyadı</label>
+                        <input type="text" class="form-control" value="@Model.AracPlaka?.AracSahipleri.FirstOrDefault()?.PlakaSahip?.Soyad" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefon Numarası</label>
+                        <input type="text" class="form-control" value="@Model.AracPlaka?.AracSahipleri.FirstOrDefault()?.PlakaSahip?.Telefon" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+
+            <div class="card-header" onclick="toggleCezaList()">
+                <h3 class="collapsible">Ceza Kesilen Maddeler</h3>
+            </div>
+            <div class="card-body collapsible-content" id="ceza-list">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Madde</th>
+                            <th>Fıkra</th>
+                            <th>Bent</th>
+                            <th>Anahtar Kelime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ceza in Model.DenetimCezalari)
+                        {
+                            <tr>
+                                <td>@ceza.CezaYonetmelik?.Madde</td>
+                                <td>@ceza.CezaYonetmelik?.Fikra</td>
+                                <td>@ceza.CezaYonetmelik?.Bent</td>
+                                <td>@ceza.CezaYonetmelik?.AnahtarKelime</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <h3 class="tutanak-gecmisi">Tutanak Geçmişi</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                    <th>Ceza Kesilen Yer</th>
+                    <th>Oluşturan Kullanıcı</th>
+                    <th>Oluşturan Kullanıcı Foto</th>
+                    <th>Fotoğraf</th>
+                    <th>Video</th>
+                </tr>
+            </thead>
+            <!-- Fotoğraf ve video modal için boş bir div -->
+            <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mediaModalLabel">Medya Görüntüle</h5>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Buraya tıklanan fotoğraf veya video gelecektir -->
+                            <div id="modalContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <tbody>
+                @if (denetimGecmisiList != null && denetimGecmisiList.Count > 0)
+                {
+                    @foreach (var gecmis in denetimGecmisiList)
+                    {
+                        <tr>
+                            <td>
+                                @(gecmis.DurumTarihi != null
+                                    ? gecmis.DurumTarihi.ToString("dd/MM/yyyy")
+                                    : (gecmis.OlusturmaTarihi != null
+                                    ? gecmis.OlusturmaTarihi.ToString("dd/MM/yyyy")
+                                    : "Tarih Yok"))
+                            </td>
+                            <td>@(gecmis.CezaDurumu ?? "Durum Yok")</td>
+                            <td>@(gecmis.Yorum ?? "Açıklama Yok")</td>
+                            <td>@(gecmis.KullaniciAdi ?? "Kullanıcı Yok")</td>
+                            <td class="text-center align-middle">
+                                @if (gecmis.KullaniciProfilResmi != null)
+                                {
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(gecmis.KullaniciProfilResmi)"
+                                         alt="Profil Resmi" width="50" height="50"
+                                         class="rounded-circle"
+                                         onclick="showModalImage('data:image/jpeg;base64,@Convert.ToBase64String(gecmis.KullaniciProfilResmi)')"
+                                         style="cursor:pointer" />
+                                }
+                                else
+                                {
+                                    <img src="/images/placeholder.png" alt="Profil Resmi Yok" width="50" height="50" class="rounded-circle" />
+                                }
+                            </td>
+                            <td>
+                                @if (gecmis.Fotolar != null && gecmis.Fotolar.Count > 0)
+                                {
+                                    <div class="photo-gallery">
+                                        @foreach (var foto in gecmis.Fotolar)
+                                        {
+                                            <img src="data:image/jpeg;base64,@foto" alt="Denetim Fotoğrafı" width="150" height="100"
+                                                 onclick="showModalImage('data:image/jpeg;base64,@foto')" style="cursor:pointer" />
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>Fotoğraf Yok</span>
+                                }
+                                
+
+                                <!-- @if (gecmis.Fotolar != null && gecmis.Fotolar.Count > 0)
+                                {
+                                    @foreach (var foto in gecmis.Fotolar)
+                                    {
+                                        <img src="data:image/jpeg;base64,@foto" alt="Denetim Fotoğrafı" width="150" height="100"
+                                             onclick="showModalImage('data:image/jpeg;base64,@foto')" style="cursor:pointer" />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Fotoğraf Yok</span>
+                                } -->
+                            </td>
+                            <td>
+                                @if (gecmis.Videolar != null && gecmis.Videolar.Count > 0)
+                                {
+                                    @foreach (var video in gecmis.Videolar)
+                                    {
+                                        <video width="150" height="100" controls style="cursor:pointer"
+                                               onclick="showModalVideo('data:video/mp4;base64,@video')">
+                                            <source src="data:video/mp4;base64,@video" type="video/mp4" />
+                                            Tarayıcınız video etiketini desteklemiyor.
+                                        </video>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Video Yok</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Kayıt bulunamadı.</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+
+
+
+        <!-- <button type="submit" class="btn btn-primary">Kaydet</button> -->
+</form>
+
+<div class="modal fade" id="islemlerModal" tabindex="-1" aria-labelledby="islemlerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="islemlerModalLabel">Ceza İşlemleri</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <form method="post" asp-controller="CezaYonetimi" asp-action="CezaIslemleri" asp-route-id="@Model.Id"> -->
+                <form method="post" asp-controller="CezaYonetimi" asp-action="AddDenetimGecmisi" asp-route-id="@Model.Id">
+
+                    <!-- Ceza Durumu Dropdown -->
+                    <div class="mb-3">
+                        <label for="CezaDurumu" class="form-label">Ceza Durumu</label>
+                        <select class="form-select" id="CezaDurumu" name="CezaDurumu">
+                            @foreach (var name in ViewBag.CezaDurumlari)
+                            {
+                                <option value="@name">@name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Kısa Açıklama -->
+                    <div class="mb-3">
+                        <label for="KisaAciklama" class="form-label">Ceza Kesildiği Yer</label>
+                        <input type="text" class="form-control" id="KisaAciklama" name="KisaAciklama" placeholder="Kısa açıklama giriniz">
+                    </div>
+
+                    <!-- Tarih Seçici -->
+                    <div class="mb-3">
+                        <label for="CezaTarihi" class="form-label">Tarih</label>
+                        <input type="datetime-local" class="form-control" id="CezaTarihi" name="CezaTarihi" required>
+                    </div>
+
+                    <!-- Denetim Geçmişi Tablosu -->
+                    <h5>Denetim Geçmişi</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Yorum</th>
+                                <th>Durum</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.DenetimGecmisi)
+                            {
+                                <tr>
+                                    <td>@item.Yorum</td>
+                                    <td>@item.CezaDurumu</td>
+                                    <td>
+                                        @if (item.DurumTarihi != null)
+                                        {
+                                            @item.DurumTarihi?.ToString("dd/MM/yyyy HH:mm")
+                                        }
+                                        else
+                                        {
+                                            @item.OlusturmaTarihi?.ToString("dd/MM/yyyy HH:mm")
+                                        }
+                                    </td>
+
+                                    <!-- <td>@item.DurumTarihi?.ToString("dd/MM/yyyy")</td> -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+
+                    <!-- İşlem Butonları -->
+                    <button type="submit" class="btn btn-success">İşlemi Kaydet</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function showModalImage(imageSrc) {
+        var modalContent = document.getElementById("modalContent");
+        modalContent.innerHTML = '<img src="' + imageSrc + '" alt="Büyütülmüş Fotoğraf" class="img-fluid" />';
+        $('#mediaModal').modal('show');
+    }
+
+    function showModalVideo(videoSrc) {
+        var modalContent = document.getElementById("modalContent");
+        modalContent.innerHTML = '<video controls class="w-100"><source src="' + videoSrc + '" type="video/mp4">Tarayıcınız video etiketini desteklemiyor.</video>';
+        $('#mediaModal').modal('show');
+    }
+
+</script>
+<script>
+    function toggleAracBilgileri() {
+        var aracBilgileri = document.getElementById("arac-bilgileri");
+        aracBilgileri.classList.toggle("active");
+    }
+
+    function toggleCezaList() {
+        var cezaList = document.getElementById("ceza-list");
+        cezaList.classList.toggle("active");
+    }
+
+</script>

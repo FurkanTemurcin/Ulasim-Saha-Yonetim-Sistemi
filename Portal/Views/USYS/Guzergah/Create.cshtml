@@ -1,0 +1,47 @@
+@model Portal.ViewModels.USYS.CreateGuzergahViewModel
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title custom-title">Güzergah Ekle</h2>
+
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label for="Ad">Güzergah Adı</label>
+                <input type="text" class="form-control" asp-for="Ad" required />
+                <span asp-validation-for="Ad" class="text-danger"></span>
+            </div>
+
+            <!-- İlçe Dropdown -->
+            <div class="form-group">
+                <label for="IlceId">İlçe</label>
+                <select asp-for="IlceId" class="form-control" asp-items="ViewBag.IlceList">
+                    <option value="">İlçe Seçin</option>
+                </select>
+                <span asp-validation-for="IlceId" class="text-danger"></span>
+            </div>
+
+            <!-- Ücret -->
+            <!-- <div class="form-group">
+                <label for="GeometriId">Geometri ID (Opsiyonel)</label>
+                <input type="number" class="form-control" asp-for="GeometriId" />
+                <span asp-validation-for="GeometriId" class="text-danger"></span>
+            </div> -->
+
+            <button type="submit" class="btn btn-success" style="margin-top: -5px;">Kaydet</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

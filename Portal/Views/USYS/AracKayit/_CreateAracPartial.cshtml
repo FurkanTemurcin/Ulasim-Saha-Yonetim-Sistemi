@@ -1,0 +1,133 @@
+@model Portal.ViewModels.USYS.CreateAracPlakaViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+
+    #createAracModal .modal-content {
+    border-radius: 10px;
+    border: 2px solid #008000;}
+
+
+    .form-control,
+    .btn-successs {
+        width: 100%; /* Genişlik aynı olsun */
+        height: auto; /* Varsayılan yüksekliği kullan */
+        padding: 10px 15px; /* Input ve butonun iç boşluğu aynı olsun */
+        box-sizing: border-box; /* İç boşluk ve kenarlık dahil genişlik hesaplama */
+    }
+</style>
+
+
+  
+</style>
+
+<h2 class="card-title custom-title">Araç Ekle</h2>
+
+<form asp-action="Create" method="post" onsubmit="return validateForm()">
+
+    <div class="row">
+        <!-- Sol Sütun -->
+        <div class="col-md-6">
+    <div class="form-group mt-5">
+        <label for="PlakaNumarasi">Plaka Numarası</label>
+        <input type="text" class="form-control" asp-for="PlakaNumarasi" required />
+        <span asp-validation-for="PlakaNumarasi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Marka">Marka</label>
+        <input type="text" class="form-control" asp-for="Marka" required />
+        <span asp-validation-for="Marka" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="VizeTarihi">Vize Tarihi</label>
+        <input type="date" class="form-control" asp-for="VizeTarihi" required />
+        <span asp-validation-for="VizeTarihi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="KoltukKapasitesi">Koltuk Kapasitesi</label>
+        <input type="number" class="form-control" asp-for="KoltukKapasitesi" required />
+        <span asp-validation-for="KoltukKapasitesi" class="text-danger"></span>
+    </div>
+       <!-- Plaka Türü Dropdown -->
+       <div class="form-group">
+        <label for="PlakaTuruId">Plaka Türü</label>
+        <select asp-for="PlakaTuruId" class="form-control" asp-items="ViewBag.PlakaTuruList" required>
+            <option value="">Plaka Türü Seçin</option>
+        </select>
+        <span asp-validation-for="PlakaTuruId" class="text-danger"></span>
+    </div>
+
+
+        </div>
+  <!-- Sağ Sütun -->
+  <div class="col-md-6 mt-5">
+
+    <div class="form-group">
+        <label for="Model">Model</label>
+        <input type="text" class="form-control" asp-for="Model" required />
+        <span asp-validation-for="Model" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="MotorNumarasi">Motor Numarası</label>
+        <input type="text" class="form-control" asp-for="MotorNumarasi" required />
+        <span asp-validation-for="MotorNumarasi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="SasiNumarasi">Şasi Numarası</label>
+        <input type="text" class="form-control" asp-for="SasiNumarasi" required />
+        <span asp-validation-for="SasiNumarasi" class="text-danger"></span>
+    </div>
+
+ 
+
+    <!-- Güzergah Dropdown -->
+    <div class="form-group">
+        <label for="GuzergahId">Güzergah</label>
+        <select asp-for="GuzergahId" class="form-control" asp-items="ViewBag.GuzergahList" required>
+            <option value="">Güzergah Seçin</option>
+        </select>
+        <span asp-validation-for="GuzergahId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-successs" style="margin-top: 25px; background-color: #008000; color: white;">Kaydet</button>
+
+  </div>
+</div>
+
+</form>
+<script>
+    function validateForm() {
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, select, textarea');
+        let isValid = true;
+
+        inputs.forEach(input => {
+            if (input.hasAttribute('required') && !input.value.trim()) {
+                alert(`${input.previousElementSibling.innerText} alanı doldurulmalıdır.`);
+                input.focus();
+                isValid = false;
+                return false; // İlk hatalı alanda kontrolü sonlandır
+            }
+        });
+
+        return isValid; // Eğer tüm alanlar doluysa form gönderilir
+    }
+</script>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

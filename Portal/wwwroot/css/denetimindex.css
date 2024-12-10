@@ -1,0 +1,47 @@
+.icon-wrapper {
+    display: inline-flex !important;
+    align-items: center !important; /* Dikeyde ortalama */
+    justify-content: center !important; /* Yatayda ortalama */
+    vertical-align: middle !important; /* Satır ortalamasını sağla */
+    position: relative !important;
+    height: 100% !important; /* Satırın tamamını kapsar */
+}
+
+.icon-wrapper img {
+    width: 32px !important;
+    height: 32px !important;
+    cursor: pointer !important;
+    vertical-align: middle !important; /* İkonu ortalar */
+}
+
+.tooltip {
+    font-size: 12px !important;
+    background-color: #ffffff !important; /* Beyaz arka plan */
+    color: #000000 !important; /* Siyah yazı rengi */
+    padding: 8px !important;
+    border-radius: 4px !important;
+    text-align: center !important;
+    display: inline-block !important; /* Yazıya göre genişleme */
+    max-width: 200px !important; /* Maksimum genişlik sınırı */
+    white-space: normal !important; /* Metnin satır kaydırmasına izin verir */
+    word-wrap: break-word !important; /* Uzun kelimelerin taşmasını önler */
+    box-sizing: border-box !important; /* Padding ve border iç hesaplamaya dahil */
+}
+
+.tutanak {
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+.tutanak.ihlal {
+    background-color: red;
+    color: #ffffff;
+}
+
+.tutanak.ihtar {
+    background-color: #d3d3d3;
+    color: #000000;
+}
+
+
+

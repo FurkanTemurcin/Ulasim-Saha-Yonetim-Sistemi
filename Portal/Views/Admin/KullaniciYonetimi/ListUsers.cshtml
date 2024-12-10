@@ -1,0 +1,76 @@
+<head>
+    <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+    <link rel="stylesheet" href="~/datatable-custom.css" />
+
+</head>
+@model IEnumerable<Portal.Models.Admin.User>
+
+
+    @if (ViewBag.SuccessMessage != null)
+    {
+    <div class="alert alert-success">
+        @ViewBag.SuccessMessage
+    </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Kullanıcı Yönetimi</h4>
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Kullanıcı Profili</th>
+                        <!-- <th>ID</th> -->
+                        <th>Adı Soyadı</th>
+                        <th>Email</th>
+                        <th>Cinsiyet</th>
+                        <th>Doğum Tarihi</th>
+
+                        
+                        <th>Öğrenim Durumu</th>
+
+                        
+                        <th>Hareketler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+            {
+                    <tr>
+                        <td>
+                            @if (user.ProfileImage != null && user.ProfileImage.Length > 0)
+                        {
+                            <img src="data:image/png;base64,@Convert.ToBase64String(user.ProfileImage)" alt="Profile Image" class="rounded-circle" style="width: 50px; height: 50px;" />
+                        }
+                        else
+                        {
+                            <img src="https://via.placeholder.com/50" alt="Default Profile Image" class="rounded-circle" style="width: 50px; height: 50px;" />
+                        }
+                        </td>
+                        <!-- <td>@user.Id</td> -->
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Cinsiyet</td>     
+                        <td>@user.BirthDate.ToString("dd/MM/yyyy")</td>
+
+                        <td>@user.OgrenimDurumu</td>
+                        <td>
+                            <a href="@Url.Action("EditUser", new { id = user.Id })" class="btn btn-warning btn-icon">
+                                <img src="~/images/edit.png" alt="EditUser" class="icon-image" />
+                            </a>
+                            <a href="@Url.Action("DeleteUser", new { id = user.Id })" class="btn btn-danger btn-icon">
+                                <img src="~/images/delete.png " alt="DeleteUser" class="icon-image" />
+                            </a>
+                            <!-- <a href="@Url.Action("EditUser", new { id = user.Id })">Düzenle</a> |
+                            <a href="@Url.Action("DeleteUser", new { id = user.Id })">Sil</a> -->
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+
+            <a asp-action="AddUser" class="btn btn-success">Yeni Kullanıcı oluştur</a>
+        </div>
+    </div>
+    <script src="/js/datatable-config.js" defer></script>
+

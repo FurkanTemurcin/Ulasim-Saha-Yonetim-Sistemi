@@ -1,0 +1,68 @@
+.icon-image {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  margin: 0.2rem;
+  font-size: 1.0rem;
+  border-radius: 0.3rem;
+  text-align: center;
+  vertical-align: middle;
+  border: none; /* Kenarlığı kaldır */
+  outline: none; /* Focus durumunda kenarlık oluşmasını engelle */
+  cursor: pointer; /* İmleç değişimi: el işareti */
+}
+
+.btn-warning {
+  color: #fff;
+  background-color: white;
+  border: none; /* Kenarlığı kaldır */
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: white;
+  border: none; /* Kenarlığı kaldır */
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #28a745;
+  border: none; /* Kenarlığı kaldır */
+}
+
+
+
+
+/* Hover durumlarını etkisiz hale getirme */
+.btn-icon:hover,
+.btn-warning:hover,
+.btn-danger:hover,
+.btn-success:hover
+.btn-red:hover {
+  background-color: inherit; /* Arka plan rengini koru */
+  color: inherit; /* Yazı rengini koru */
+  box-shadow: none; /* Gölgeyi kaldır */
+  cursor: pointer; /* İmleç değişimi: el işareti */
+}
+
+
+h2 {
+  margin-top: 20px;
+  margin-left: 5px;
+  padding-left: 15px; /* Yazı ile şerit arasına boşluk */
+  font-family: Arial, sans-serif; /* Yazı tipi */
+  font-size: 24px; /* Yazı boyutu */
+  font-weight: bold;
+  color: #333; /* Yazı rengi */
+  line-height: 20px; /* Yazı yüksekliğiyle aynı olacak şekilde */
+  text-align: left;
+  border-left: 10px solid #ff8800; /* Sol dikey turuncu şerit */
+  padding-bottom: 5px;
+}
+

@@ -1,0 +1,51 @@
+@model Portal.ViewModels.Admin.EditRoleViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<div class="container">
+    <div class="card">
+        <h2>Rol Düzenle - @Model.RoleName</h2>
+
+        @if (Model?.Permissions != null && Model.Permissions.Any())
+{
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="RoleId" />
+            <div class="form-group">
+                <label>Rol Adı</label>
+                <input asp-for="RoleName" class="form-control" readonly />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div>
+                @foreach (var group in Model.Permissions)
+            {
+                <div>
+                    <strong>@group.Key</strong>
+                    <ul>
+                        @foreach (var permission in group.Value)
+                        {
+                        <li>
+                            <input type="checkbox" name="AssignedPermissions" value="@permission.Id" @(Model.AssignedPermissions.Contains(permission.Id) ? "checked" : "") />
+                            <label>@permission.Action</label>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            }
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Kaydet</button>
+            </div>
+        </form>
+}
+else
+{
+        <p>Yetki bulunamadı.</p>
+}
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial" />
+        }
+    </div>
+</div>

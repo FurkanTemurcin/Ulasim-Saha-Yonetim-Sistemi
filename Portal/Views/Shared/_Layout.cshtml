@@ -1,0 +1,460 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Portal.Helpers.UserRoleHelper UserRoleHelper
+
+@{
+    // Kullanıcı bilgilerini session üzerinden alıyoruz
+    var userId = HttpContextAccessor.HttpContext.Session.GetInt32("UserId") ?? 0;
+    var userFullName = HttpContextAccessor.HttpContext.Session.GetString("UserFullName");
+    var userJobTitle = HttpContextAccessor.HttpContext.Session.GetString("UserJobTitle");
+    var userProfileImage = HttpContextAccessor.HttpContext.Session.GetString("UserProfileImage");
+
+    // Admin kontrolünü yapıyoruz
+    bool isAdmin = UserRoleHelper.CheckUserRole(userId, 1);
+}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/NiceAdmin/assets/img/Logolar/mbblogo5.png" rel="icon">
+    <link href="~/NiceAdmin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <!-- <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dPhu4+T/owg3ypbVwHg9e0QX3Pq2kOJjhl1QXxvKP8Qs+qE5rK1JdWxDQRCXtMcbDqMtyMCu+r7RF7+s2EQFMA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <link rel="stylesheet" href="~/css/all.min.css" />
+    <!-- Vendor CSS Files -->
+    <link href="~/NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/NiceAdmin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/NiceAdmin/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/NiceAdmin/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/NiceAdmin/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="~/NiceAdmin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <!-- <link href="~/NiceAdmin/assets/vendor/simple-datatables/style.css" rel="stylesheet"> -->
+    <!-- Template Main CSS File -->
+    <link href="~/NiceAdmin/assets/css/style.css" rel="stylesheet">
+    <!-- Önce DataTables CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="~/css/jquery.dataTables.min.css">
+
+    <!-- jQuery -->
+    <!-- indiripkaydettik -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+
+
+    <script src="~/js/signalr.min.js"></script>
+    <script src="~/js/notification.js"></script>
+
+    <!-- DataTables JS -->
+    <!-- indiripkaydettik -->
+    <!-- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script> -->
+    <script src="~/js/jquery.dataTables.min.js"></script>
+
+
+    <!-- Sonra kendi stil dosyanız -->
+    <link rel="stylesheet" href="@(Url.Content("~/css/datatable-custom.css"))" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/layout.css" />
+
+
+    <!-- USYS-->
+    <!-- jQuery -->
+    <!-- <script src="/js/jquery-3.6.0.min.js"></script> -->
+    <!-- Select2 CSS -->
+    <link href="/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Select2 JS -->
+    <script src="/js/select2.min.js"></script>
+
+    <style>
+        br {
+            line-height: 0.2 !important; /* Satır boşluğunu ayarlamak için */
+            margin: 0 !important; /* Ekstra boşlukları sıfırlayın */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <a asp-controller="Home" asp-action="Index" class="logo d-flex align-items-center">
+                    <img src="~/NiceAdmin/assets/img/Logolar/mbblogo5.png" alt="">
+                    <span class="d-none d-lg-block">Ulaşım Saha Yönetim </span>
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center">
+
+                <i class="bi bi-list toggle-sidebar-btn"></i>
+
+            </div>
+        </div><!-- End Logo -->
+
+
+
+
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="navv-item dropdown">
+                    <a class="navv-link navv-icon custom-notification-link position-relative" href="#" id="notificationIcon" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell custom-notification-icon"></i>
+                        <!-- <span id="notificationCount" class="badge bg-danger notification-badge">4</span> -->
+                        <span id="notificationCount" class="badge bg-danger notification-badge" style="display: none;">0</span>
+
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" id="notificationList" style="min-width: 300px;">
+                        <!-- <li class="dropdown-header">
+                            <span id="notificationHeader">You have no new notifications</span>
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li> -->
+                        <li><hr class="dropdown-divider"></li>
+                    </ul>
+                </li>
+                <!-- End Bildirimler Dropdown -->
+
+
+
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        @if (!string.IsNullOrEmpty(userProfileImage))
+                        {
+                        <img src="data:image;base64,@userProfileImage" alt="Profile" class="rounded-circle">
+                        }
+                        else
+                        {
+                        <img src="~/NiceAdmin/assets/img/log.png" alt="Profile" class="rounded-circle">
+                        }
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@userFullName</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>@userFullName</h6>
+                            <span>@userJobTitle</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" asp-controller="Profile" asp-action="Index">
+                                <i class="bi bi-person"></i>
+                                <span>Profilim</span>
+                            </a>
+
+
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+
+                            <form id="logoutForm" method="post" asp-controller="Account" asp-action="Logout" style="display:none;"></form>
+                            <a class="dropdown-item d-flex align-items-center" href="javascript:document.getElementById('logoutForm').submit();">
+                                <i class="bi bi-box-arrow-right margin-left=20px"></i>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+            </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+            </ul>
+        </nav><!-- End Icons Navigation -->
+    </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-house"></i>
+                    <span>Anasayfa</span>
+                </a>
+            </li>
+
+            <li class="nav-item profile-nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Profile-nav-unique" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-person"></i><span>Profilim</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Profile-nav-unique" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <ul id="Profile-nav-unique" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a asp-controller="Profile" asp-action="Index">
+                                <i class="bi bi-person"></i><span>Profilim</span> <!-- Profilim için ilgili ikon -->
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Profile" asp-action="ChangePassword">
+                                <i class="bi bi-shield-lock"></i><span>Şifre Değiştir</span> <!-- Şifre Değiştir için ilgili ikon -->
+                            </a>
+                        </li>
+                    </ul>
+
+
+
+                </ul>
+            </li>
+
+
+            @if (isAdmin)
+{
+            @await Component.InvokeAsync("Menu")
+}
+
+
+
+            <li class="nav-item">
+                <!-- <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a> -->
+                <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="components-alerts.html">
+                            <i class="bi bi-circle"></i><span>Alerts</span>
+                        </a>
+                    </li>
+                    <!-- Diğer static menü öğeleri buraya eklenebilir -->
+                </ul>
+                <!-- <li class="nav-heading">--</li> -->
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Denetim" asp-action="Index">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Denetimler</span>
+                </a>
+            </li>
+
+            <!-- <li class="nav-item">
+                <a class="nav-link " asp-controller="CezaYonetimi" asp-action="Ihlal">
+                    <i class="bi bi-x-circle-fill"></i>
+
+                    <span>Cezalar</span>
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#cezalar-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-x-circle-fill"></i><span>Cezalar</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="cezalar-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="sub-link" asp-controller="CezaYonetimi" asp-action="Ihlal">
+                            <i class="bi bi-exclamation-circle"></i><span>İhlal Cezaları</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sub-link" asp-controller="CezaYonetimi" asp-action="Ihtar">
+                            <i class="bi bi-exclamation-circle"></i><span>İhtar Cezaları</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="AracKayit" asp-action="Index">
+                    <i class="bi bi-car-front-fill"></i>
+
+                    <span>Araçlar</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Guzergah" asp-action="Index">
+                    <i class="bi bi-sign-turn-slight-right-fill"></i>
+
+                    <span>Güzergahlar</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="CezaYonetmelik" asp-action="Index">
+                    <i class="bi bi-file-text-fill"></i>
+
+                    <span>Ceza Yönetmelikleri</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Rapor" asp-action="Index">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+
+                    <span>Raporlar</span>
+                </a>
+            </li>
+
+
+
+            <!-- <li class="nav-item">
+              <a class="nav-link collapsed" asp-controller="Account" asp-action="Register">
+                <i class="bi bi-card-list"></i>
+                <span>Kayıt Ol</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link collapsed" asp-controller="Account" asp-action="Login">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Giriş Yap</span>
+              </a>
+            </li> -->
+
+
+
+        </ul>
+    </aside><!-- End Sidebar-->
+
+
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>@ViewData["Title"]</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <!-- <li class="breadcrumb-item"><a href="/">Home</a></li> -->
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                    @RenderBody()
+
+
+                </div>
+
+
+            </div>
+        </section>
+    </main><!-- End #main -->
+    <!-- <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy;  <strong>MBB Bilgi İşlem<span> GençKart</span></strong>
+        </div>
+        <div class="credits">
+
+        </div>
+    </footer> -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/NiceAdmin/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/NiceAdmin/assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="~/NiceAdmin/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="~/NiceAdmin/assets/vendor/quill/quill.js"></script>
+    <!-- <script src="~/NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script> -->
+    <script src="~/NiceAdmin/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/NiceAdmin/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/NiceAdmin/assets/js/main.js"></script>
+
+
+
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateNotificationCount();
+        });
+
+        let isFirstClick = true;
+
+        function updateNotificationCount() {
+            fetch("/api/Notifications/GetUnreadNotificationCount")
+                .then(response => response.json())
+                .then(unreadCount => {
+                    const notificationCountElement = document.getElementById("notificationCount");
+
+                    if (unreadCount > 0) {
+                        notificationCountElement.textContent = unreadCount;
+                        notificationCountElement.style.display = "inline";
+                    } else {
+                        notificationCountElement.style.display = "none";
+                        isFirstClick = false; // Unread count 0 ise, doğrudan tüm bildirimleri göster
+                    }
+                })
+                .catch(error => console.error("Error loading notification count:", error));
+        }
+
+        document.getElementById("notificationIcon").addEventListener("click", function () {
+            const notificationList = document.getElementById("notificationList");
+            notificationList.style.display = notificationList.style.display === "block" ? "none" : "block";
+
+            // Okunmamış bildirim yoksa tüm bildirimleri göster
+            const apiEndpoint = isFirstClick ? "/api/Notifications/GetNotifications" : "/api/Notifications/GetAllNotifications";
+
+            fetch(apiEndpoint)
+                .then(response => response.json())
+                .then(notifications => {
+                    notificationList.innerHTML = "";
+                    notifications.forEach(notification => {
+                        const li = document.createElement("li");
+                        li.classList.add("notification-item");
+                        li.textContent = notification.message;
+                        notificationList.appendChild(li);
+                    });
+
+                    if (isFirstClick) {
+                        markNotificationsAsRead();
+                        updateNotificationCount();
+                        isFirstClick = false;
+                    }
+                })
+                .catch(error => console.error("Error loading notifications:", error));
+        });
+
+        function markNotificationsAsRead() {
+            fetch("/api/Notifications/MarkAsRead", { method: "POST" })
+                .catch(error => console.error("Error marking notifications as read:", error));
+        }
+
+        document.addEventListener("click", function (event) {
+            const notificationList = document.getElementById("notificationList");
+            const notificationIcon = document.getElementById("notificationIcon");
+
+            // Eğer tıklama notificationIcon veya notificationList dışında bir yere yapıldıysa listeyi gizle
+            if (notificationList.style.display === "block" &&
+                !notificationIcon.contains(event.target) &&
+                !notificationList.contains(event.target)) {
+                notificationList.style.display = "none";
+            }
+        });
+
+
+    </script>
+
+
+
+
+</body>
+</html>
+
+

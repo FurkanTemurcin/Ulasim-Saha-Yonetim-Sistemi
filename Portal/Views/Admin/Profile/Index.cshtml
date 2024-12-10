@@ -1,0 +1,317 @@
+@model Portal.ViewModels.Admin.ProfileViewModel
+
+
+
+<style>
+    .profile .profile-card img {
+        width: 200px !important;
+        height: 200px !important;
+        max-width: 300px !important;
+    }
+</style>
+
+<section class="section profile">
+    <div class="row">
+
+       <div class="row">
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                            @if (Model.ProfileImage != null)
+                            {
+                                <img src="/Profile/ShowImage?id=@Model.Id" alt="Profil Resmi" class="rounded-circle" />
+                            }
+                            else
+                            {
+                                <img src="~/NiceAdmin/assets/img/default-profile.png" alt="Profil Resmi" class="rounded-circle" />
+                            }
+                            <h2>@Model.FullName</h2>
+                            <h3>@Model.JobTitle</h3>
+                            <div class="social-links mt-2">
+                                @if (!string.IsNullOrEmpty(Model.Twitter))
+                                {
+                                    <a href="@Model.Twitter" class="twitter"><i class="bi bi-twitter"></i></a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Facebook))
+                                {
+                                    <a href="@Model.Facebook" class="facebook"><i class="bi bi-facebook"></i></a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Instagram))
+                                {
+                                    <a href="@Model.Instagram" class="instagram"><i class="bi bi-instagram"></i></a>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Puan))
+                                {
+                                    <a href="@Model.Puan" class="puan"><i class="bi bi-puan"></i></a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Profilim</button>
+                          </li>
+    
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Profili Düzenle</button>
+                        </li>
+          
+                          <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Şifre Değiştir</button>
+                          </li>
+                    </ul>
+
+                    <div class="tab-content pt-2">
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <h5 class="card-title">Profil Detayları</h5>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Ad Soyad</div>
+                                <div class="col-lg-9 col-md-8">@Model.FullName</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">TC</div>
+                                <div class="col-lg-9 col-md-8">@Model.TcKimlik</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Cinsiyet</div>
+                                <div class="col-lg-9 col-md-8">@Model.Cinsiyet</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Öğrenim Durumu</div>
+                                <div class="col-lg-9 col-md-8">@Model.OgrenimDurumu</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Email</div>
+                                <div class="col-lg-9 col-md-8">@Model.Email</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Birim</div>
+                                <div class="col-lg-9 col-md-8">@Model.BirimAd</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Müdürlük</div>
+                                <div class="col-lg-9 col-md-8">@Model.MudurlukAd</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Şube</div>
+                                <div class="col-lg-9 col-md-8">@Model.SubeAd</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Şirket</div>
+                                <div class="col-lg-9 col-md-8">@Model.Company</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Meslek</div>
+                                <div class="col-lg-9 col-md-8">@Model.JobTitle</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Ülke</div>
+                                <div class="col-lg-9 col-md-8">@Model.Country</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Adres</div>
+                                <div class="col-lg-9 col-md-8">@Model.Address</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Telefon</div>
+                                <div class="col-lg-9 col-md-8">@Model.Phone</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Kan Grubu</div>
+                                <div class="col-lg-9 col-md-8">@Model.KanGrubu</div>
+                            </div>
+                            
+                         
+                        </div>
+
+                    
+                    <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                        <form asp-action="Update" asp-controller="Profile" method="post" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="Id" />
+                            <div class="row mb-3">
+                                <label for="ProfileImageFile" class="col-md-4 col-lg-3 col-form-label">Profil Resmi</label>
+                                <div class="col-md-8 col-lg-9">
+                                    @if (Model.ProfileImage != null && Model.ProfileImage.Length > 0)
+                                    {
+                                        <img src="data:image;base64,@(Convert.ToBase64String(Model.ProfileImage))" alt="Profile" class="rounded-circle">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                                    }
+                                    <div class="pt-2">
+                                        <input asp-for="ProfileImageFile" type="file" class="form-control">
+                                        <span asp-validation-for="ProfileImageFile" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="TcKimlik" class="col-md-4 col-lg-3 col-form-label">TC</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="TcKimlik" type="text" class="form-control">
+                                    <span asp-validation-for="TcKimlik" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="FullName" class="col-md-4 col-lg-3 col-form-label">Tam Adı</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="FullName" type="text" class="form-control">
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Email" type="email" class="form-control">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="BirthDate" class="col-md-4 col-lg-3 col-form-label">Doğum Tarihi</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="BirthDate" type="text" class="form-control">
+                                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Cinsiyet" class="col-md-4 col-lg-3 col-form-label">Cinsiyet</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Cinsiyet" type="text" class="form-control">
+                                    <span asp-validation-for="Cinsiyet" class="text-danger"></span>
+                                </div>
+                            </div>
+                      
+                            <div class="row mb-3">
+                                <label for="OgrenimDurumu" class="col-md-4 col-lg-3 col-form-label">Öğrenim Durumu</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="OgrenimDurumu" type="text" class="form-control">
+                                    <span asp-validation-for="OgrenimDurumu" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="About" class="col-md-4 col-lg-3 col-form-label">Hakkkımda</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="About" type="text" class="form-control">
+                                    <span asp-validation-for="About" class="text-danger"></span>
+                                </div>
+                            </div>
+                       
+                            <!-- Şifre kısmı gelmeden kaydetmediğinden getirip formda görünmez yaptık -->
+                            <div class="row mb-3" style="display: none;">
+                                <label for="Password" class="col-md-4 col-lg-3 col-form-label">Şifre</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Password" type="text" class="form-control">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Address" class="col-md-4 col-lg-3 col-form-label">Adres</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Address" type="text" class="form-control">
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Company" class="col-md-4 col-lg-3 col-form-label">Şirket</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Company" type="text" class="form-control">
+                                    <span asp-validation-for="Company" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="JobTitle" class="col-md-4 col-lg-3 col-form-label">Meslek</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="JobTitle" type="text" class="form-control">
+                                    <span asp-validation-for="JobTitle" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Country" class="col-md-4 col-lg-3 col-form-label">Ülke</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Country" type="text" class="form-control">
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefon</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Phone" type="text" class="form-control">
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profil</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Twitter" type="text" class="form-control">
+                                    <span asp-validation-for="Twitter" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profil</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Facebook" type="text" class="form-control">
+                                    <span asp-validation-for="Facebook" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profil</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input asp-for="Instagram" type="text" class="form-control">
+                                    <span asp-validation-for="Instagram" class="text-danger"></span>
+                                </div>
+                            </div>
+                        
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade pt-3" id="profile-change-password">
+                        <form method="post" action="@Url.Action("ChangePassword", "Profile")">
+                            @Html.AntiForgeryToken()
+                            <div class="row mb-3">
+                                <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mevcut Şifre</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="CurrentPassword" type="password" class="form-control" id="currentPassword" required>
+                                </div>
+                            </div>
+            
+                            <div class="row mb-3">
+                                <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Yeni Şifre</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="NewPassword" type="password" class="form-control" id="newPassword" required>
+                                </div>
+                            </div>
+            
+                            <div class="row mb-3">
+                                <label for="confirmPassword" class="col-md-4 col-lg-3 col-form-label">Yeni Şifre (Tekrar)</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="ConfirmPassword" type="password" class="form-control" id="confirmPassword" required>
+                                </div>
+                            </div>
+            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Şifre Değiştir</button>
+                            </div>
+                        </form>
+                </div>
+            </div><!-- End Bordered Tabs -->
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

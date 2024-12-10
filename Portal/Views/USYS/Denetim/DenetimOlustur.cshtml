@@ -1,0 +1,64 @@
+@model Portal.ViewModels.USYS.AracDenetimViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+<div class="container">
+    <div class="card">
+        <h2>Denetim Oluştur</h2>
+
+        <form asp-action="DenetimOlustur" method="post" enctype="multipart/form-data">
+            <!-- Plaka Dropdown -->
+            <div class="form-group">
+                <label for="plaka">Plaka</label>
+                <select id="plakaSelect" name="AracPlakaId" class="form-control" required>
+                    <option value="">Plaka Seçin</option>
+                    @foreach (var plaka in Model.Plakalar)
+                    {
+                        <option value="@plaka.Value">@plaka.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="AracPlakaId" class="text-danger"></span>
+            </div>
+
+            <!-- Kontrol Türü Multiple Select -->
+            <div class="form-group">
+                <label for="kontrolTuru">Kontrol Türü</label>
+                <select id="kontrolTuruSelect" name="SelectedKontrolTuruIds[]" class="form-control" multiple="multiple" required>
+                    @foreach (var kontrolTuru in Model.KontrolTurleri)
+                    {
+                        <option value="@kontrolTuru.Value">@kontrolTuru.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedKontrolTuruIds" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success" style="margin-top: -5px;">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        // Plaka dropdown'ını Select2 ile arama yapılabilir hale getiriyoruz
+        $('#plakaSelect').select2({
+            placeholder: 'Plaka Seçin',
+            allowClear: true,  // Temizleme opsiyonu
+            width: '100%'      // Genişlik ayarı
+        });
+
+        // Tutanak Türü dropdown'ını Select2 ile çoklu seçime uygun hale getiriyoruz
+        $('#kontrolTuruSelect').select2({
+            placeholder: 'Kontrol Türü Seçin',
+            allowClear: true,  // Temizleme opsiyonu
+            width: '100%'      // Genişlik ayarı
+        });
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

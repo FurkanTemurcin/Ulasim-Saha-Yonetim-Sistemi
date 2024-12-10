@@ -1,0 +1,293 @@
+@model IEnumerable<Portal.Models.USYS.Denetim>
+
+<head>
+    <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+
+    <link rel="stylesheet" href="~/css/denetimindex.css" />
+
+</head>
+<style>
+
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+/* 
+    .icon-wrapper img {
+        margin-left: 10px !important;} */
+
+        .icon-wrapper img {
+    margin-left: 15px !important;   /* Görselin sol tarafına daha fazla boşluk ekleyelim */
+    width: 40px;                    /* Görselin genişliğini artırdık */
+    height: 40px;                   /* Görselin yüksekliğini artırdık */
+    border-radius: 8px;             /* Yuvarlak köşeler eklemek için */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Yumuşak geçiş efekti */
+}
+
+/* Mouse ile üzerine gelindiğinde efekt eklemek */
+.icon-wrapper img:hover {
+    transform: scale(1.1);  /* Görseli biraz büyütüyoruz */
+}
+
+</style>
+
+<div class="card">
+    <div class="card-body">
+
+        <h2 class="card-title custom-title">İhlal Cezaları</h2>
+        <div class="table-responsive">
+
+            <table id="example" class="dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <!-- sıralama yaparken bunu gizliyoruz datatable js de -->
+                        <th style="width: 50px;">Ceza No</th>
+                        <!-- <th style="width: 50px;">Ceza No</th> -->
+                        <th style="display: none; width: 50px;">Denetim No</th> <!-- Gizli kolon -->
+
+                        <th style="width: 100px;">Durum </th>
+                        <th style="width: 100px;">Plaka</th>
+                        <th style="width: 400px;">Cezanın Adı</th> <!-- Cezanın Adı için başlık -->
+                        <th>Tutanak Tipi</th>
+                        <th>Ceza Kesilen Yer</th>
+                        <th style="width: 50px;">Yazdır</th>
+                        <th style="width: 65px;">Düzenle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <!-- DenetimCezalari koleksiyonunu döngü ile gösterme -->
+                                @foreach (var ceza in item.DenetimCezalari)
+                                {
+                                    <div>@ceza.Id</div> <!-- Ceza No (ID) gösterimi -->
+                                }
+                            </td>
+                            <!-- <td>
+                            @foreach (var ceza in item.DenetimCezalari)
+                            {
+                                        <div>@ceza.Id</div>
+                            }
+                            </td> -->
+
+                            <td style="display: none; width: 50px;">@item.Id</td> <!-- Denetim No -->
+                            <!-- <td>@item.CezaDurum?.Name</td> -->
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.CezaDurum?.Icon))
+                                {
+                                    <div class="icon-wrapper">
+                                        <img src="@item.CezaDurum.Icon" alt="Icon" />
+                                        <span class="tooltip">@item.CezaDurum?.Name</span>
+                                    </div>
+                                    
+                                    <!-- <div class="icon-wrapper" onmousemove="showTooltip(event, this)" onmouseleave="hideTooltip(this)">
+                                        <img src="@item.CezaDurum.Icon" alt="Icon" />
+                                        <span class="tooltip">@item.CezaDurum?.Name</span>
+                                    </div> -->
+                                }
+                            </td>
+
+
+
+                            <td>@item.AracPlaka?.PlakaNumarasi</td> <!-- Plaka Numarası -->
+                            <!-- DenetimCezalari üzerinden Cezanın Adı (CezaYonetmelik'ten) -->
+                            <td>
+                                @foreach (var ceza in item.DenetimCezalari)
+                                {
+                                    <span>@ceza.CezaYonetmelik?.Yonetmelik</span>
+
+                                    <br /> <!-- "Yonetmelik" CezaYonetmelik tablosundaki alan -->
+                                }
+                            </td>
+
+                            <!-- <td>@item.DenetimTuru?.Name</td>  -->
+                            <td>
+                                @if (item.DenetimTuru?.Name == "İhlal Tutanağı")
+                                {
+                                    <span class="tutanak ihlal">
+                                        @item.DenetimTuru?.Name
+                                    </span>
+                                }
+                                else if (item.DenetimTuru?.Name == "İhtar Tutanağı")
+                                {
+                                    <span class="tutanak ihtar">
+                                        @item.DenetimTuru?.Name
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="tutanak">
+                                        @item.DenetimTuru?.Name
+                                    </span>
+                                }
+                            </td>
+
+
+                            <!-- Anahtar Kelimeleri DenetimCezalari üzerinden çekiyoruz -->
+                            <!-- <td>
+                            @foreach (var gecmis in item.DenetimGecmisleri)
+                            {
+                                        <span>@gecmis.Yorum</span>
+
+                                <br />
+                            }
+                            </td> -->
+
+                            <td>
+                                @if (item.DenetimGecmisleri != null && item.DenetimGecmisleri.Any())
+                                {
+                                    <span>@item.DenetimGecmisleri.FirstOrDefault()?.Yorum</span>
+
+                                    <br /> <!-- İlk Yorum alanı -->
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.DenetimTuru?.Name == "İhlal Tutanağı")
+                                {
+                                    <button type="button" class="btn btn-warning btn-icon" onclick="openPdfModal(@(item.Id))">
+                                        <img src="~/images/printer.png" class="icon-image" />
+                                    </button>
+
+                                }
+                            </td>
+
+
+                            <!-- <td>
+                            @if (item.DenetimTuru?.Name == "İhlal Tutanağı")
+                            {
+                                        <a asp-controller="CezaYonetimi" asp-action="GenerateViolationReport" asp-route-denetimId="@item.Id" class="btn btn-warning btn-icon">
+                                            <img src="~/images/printer.png" class="icon-image" />
+                                        </a>
+                            }
+                            </td>
+                             -->
+                            <!--
+                                                <td>    <a href="@Url.Action("#", new { id = item.Id })" class="btn btn-warning btn-icon">
+                                                    <img src="~/images/printer.png"  class="icon-image" />
+                                                </a></td>
+                                                 Yazdır Linki -->
+                            <!-- <td><a href="/CezaYonetimi/Edit/@item.Id">Edit</a></td> Edit Linki -->
+                            <td>
+                                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning btn-icon">
+                                    <img src="~/images/edit.png" class="icon-image" />
+                                </a>
+
+                            </td>
+
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <form asp-controller="CezaYonetimi" asp-action="CreateCeza" method="get">
+                <button type="submit" class="btn btn-success" style="margin-left: 10px;">Ceza Oluştur</button>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div id="pdfModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">İhlal Tutanağı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- PDF görüntüleme alanı -->
+                <iframe id="pdfViewer" style="width: 100%; height: 600px;" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="printButton" onclick="printPDF()" style="display: none;">Yazdır</button>
+                <a id="downloadPdfLink" class="btn btn-success" download style="display: none;">İndir</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="printPDF()">Yazdır</button>
+                <a id="downloadPdfLink" class="btn btn-success" download>İndir</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+// Tooltip gösterme fonksiyonu
+function showTooltip(event, element) {
+    const tooltip = element.querySelector('.tooltip');
+    if (tooltip) {
+        tooltip.style.visibility = 'visible';
+        tooltip.style.opacity = 1;
+        tooltip.style.left = `${event.pageX + 10}px`;  // Tooltip konumunu fare hareketine göre ayarla
+        tooltip.style.top = `${event.pageY + 10}px`;
+    }
+}
+
+// Tooltip gizleme fonksiyonu
+function hideTooltip(element) {
+    const tooltip = element.querySelector('.tooltip');
+    if (tooltip) {
+        tooltip.style.visibility = 'hidden';
+        tooltip.style.opacity = 0;
+    }
+}
+
+// Tüm icon-wrapper öğelerine olay dinleyicileri ekleyin
+const iconWrappers = document.querySelectorAll('.icon-wrapper');
+iconWrappers.forEach(wrapper => {
+    wrapper.addEventListener('mousemove', function (event) {
+        showTooltip(event, this);
+    });
+    wrapper.addEventListener('mouseleave', function () {
+        hideTooltip(this);
+    });
+});
+
+});
+
+    </script>
+    
+<script src="/js/datatable-config.js" defer></script>
+
+
+<!-- yazdırma -->
+
+<script>
+    // PDF modalını aç ve veriyi yükle
+    function openPdfModal(denetimId) {
+        fetch(`/CezaYonetimi/GenerateViolationReport?denetimId=${denetimId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const pdfViewer = document.getElementById('pdfViewer');
+                    pdfViewer.src = `data:application/pdf;base64,${data.pdfData}`;
+
+                    const downloadLink = document.getElementById('downloadPdfLink');
+                    downloadLink.href = data.downloadUrl;
+
+                    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+                    modal.show();
+                } else {
+                    alert("PDF yüklenirken bir hata oluştu.");
+                }
+            });
+    }
+
+    // PDF yazdırma
+    function printPDF() {
+        const pdfViewer = document.getElementById('pdfViewer');
+        pdfViewer.contentWindow.print();
+    }
+</script>

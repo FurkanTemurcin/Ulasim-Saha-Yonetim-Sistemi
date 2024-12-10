@@ -1,0 +1,75 @@
+@model Portal.ViewModels.USYS.AracDenetimViewModel
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+
+<!-- <h2 class="card-title custom-title">Denetim Oluştur</h2> -->
+
+<form asp-action="DenetimOlustur" method="post" enctype="multipart/form-data">
+    <!-- Plaka Dropdown -->
+    <div class="form-group">
+        <label for="plaka">Plaka</label>
+        <select id="plakaSelect" name="AracPlakaId" class="form-control" required>
+            <option value="">Plaka Seçin</option>
+            @foreach (var plaka in Model.Plakalar)
+            {
+                <option value="@plaka.Value">@plaka.Text</option>
+            }
+        </select>
+        <span asp-validation-for="AracPlakaId" class="text-danger"></span>
+    </div>
+
+    <!-- Kontrol Türü Multiple Select -->
+    <div class="form-group ">
+        <label for="kontrolTuru">Kontrol Türü</label>
+        <select id="kontrolTuruSelect" name="SelectedKontrolTuruIds[]" class="form-control" multiple="multiple" required>
+            @foreach (var kontrolTuru in Model.KontrolTurleri)
+            {
+                <option value="@kontrolTuru.Value">@kontrolTuru.Text</option>
+            }
+        </select>
+        <span asp-validation-for="SelectedKontrolTuruIds" class="text-danger"></span>
+    </div>
+
+     <!-- Ceza Durum Checkbox -->
+     <div class="form-check mt-3">
+        <input type="checkbox" class="form-check-input" id="cezaDurum" name="CezaDurum" value="true">
+        <label class="form-check-label" for="cezaDurum">Ceza Uygula</label>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-5" style="margin-top: -5px;">Kaydet</button>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        // Plaka dropdown'ını Select2 ile arama yapılabilir hale getiriyoruz
+        $('#plakaSelect').select2({
+            placeholder: 'Plaka Seçin',
+            allowClear: true,  // Temizleme opsiyonu
+            width: '100%'      // Genişlik ayarı
+        });
+
+        // Tutanak Türü dropdown'ını Select2 ile çoklu seçime uygun hale getiriyoruz
+        // $('#kontrolTuruSelect').select2({
+        //     placeholder: 'Kontrol Türü Seçin',
+        //     allowClear: true,  // Temizleme opsiyonu
+        //     width: '100%'      // Genişlik ayarı
+        // });
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

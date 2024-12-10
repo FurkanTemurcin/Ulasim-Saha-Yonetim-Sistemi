@@ -1,0 +1,158 @@
+@model Portal.ViewModels.Admin.EditUserViewModel
+
+@if (ViewBag.SuccessMessage != null)
+{
+<div class="alert alert-success">
+    @ViewBag.SuccessMessage
+</div>
+}
+
+<form asp-action="EditUser" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FullName">Ad Soyad</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TcKimlik" class="control-label">TC</label>
+                <input asp-for="TcKimlik"  class="form-control" />
+                <span asp-validation-for="TcKimlik" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label">Doğum Tarihi</label>
+                <input asp-for="BirthDate"  class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cinsiyet">Cinsiyet</label>
+                <select asp-for="Cinsiyet" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="Erkek">Erkek</option>
+                    <option value="Kadın">Kadın</option>
+                </select>
+                <span asp-validation-for="Cinsiyet" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="MedeniDurum" >Medeni Durumu</label>
+                    <select asp-for="MedeniDurum" class="form-control">
+                        <option value="">Seçiniz</option>
+                        <option value="Evli">Evli</option>
+                        <option value="Bekar">Bekar</option>
+                    </select>
+                    <span asp-validation-for="MedeniDurum" class="text-danger"></span>
+            </div>
+               <!-- Kan Grubu Dropdown -->
+    <div class="form-group">
+        <label asp-for="KanGrubuId">Kan Grubu</label>
+        <select asp-for="KanGrubuId" class="form-control" asp-items="ViewBag.KanGrubus">
+            <option value="">Seçiniz</option>
+        </select>
+    </div>
+           
+            <div class="col-12">
+                <label asp-for="OgrenimDurumu" class="form-label">Öğrenim Durumu</label>
+                <select asp-for="OgrenimDurumu" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="Ilkokul">İlkokul</option>
+                    <option value="Ortaokul">Ortaokul</option>
+                    <option value="Lise">Lise</option>
+                    <option value="Üniversite">Üniversite(Önlisans)</option>
+                    <option value="Üniversite">Ünivesite (Lisans)</option>
+
+            
+
+                    <option value="Yüksek Lisans">Yüksek Lisans</option>
+                    <option value="Doktora">Doktora</option>
+                </select>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.OgrenimDurumu)</span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="About">Hakkımda</label>
+                <input asp-for="About" class="form-control" />
+                <span asp-validation-for="About" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address">Adres</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company">Şirket</label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobTitle">Meslek</label>
+                <input asp-for="JobTitle" class="form-control" />
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country">Ülke</label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Phone">Telefon</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Twitter">Twitter</label>
+                <input asp-for="Twitter" class="form-control" />
+                <span asp-validation-for="Twitter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Facebook">Facebook</label>
+                <input asp-for="Facebook" class="form-control" />
+                <span asp-validation-for="Facebook" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Instagram">İnstagram</label>
+                <input asp-for="Instagram" class="form-control" />
+                <span asp-validation-for="Instagram" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Puan">Puan</label>
+                <input asp-for="Puan" class="form-control" />
+                <span asp-validation-for="Puan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfileImage" class="control-label">Profile Image</label>
+                <input asp-for="ProfileImage" type="file" class="form-control" />
+                <span asp-validation-for="ProfileImage" class="text-danger"></span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ProfileImageBase64))
+            {
+            <div class="form-group">
+                <label>Mevcut Profil Fotoğrafınız:</label>
+                <img src="@Model.ProfileImageBase64" alt="Profile Image" class="img-thumbnail" style="max-width: 200px;" />
+            </div>
+            }
+        </div>
+     
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+        <a asp-action="ListUsers" class="btn btn-secondary">Geri Dön</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,48 @@
+@model Portal.ViewModels.Admin.LoginViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css" />
+
+</head>
+
+<div class="left-side">
+    <div class="content">
+        <h2>Giriş Yap</h2>
+        <form class="row g-3 needs-validation" asp-action="Login" method="post" novalidate>
+            <div class="col-12">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Email)</div>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary w-100 btn-orange" type="submit">Giriş</button>
+            </div>
+            
+            <div class="col-12">
+                <p class="small mb-0">Hesabınız yok mu? 
+                    <a asp-controller="Account" asp-action="Register" class="link-orange">Hesap oluştur</a> | 
+                    <a asp-controller="Account" asp-action="ForgotPassword" class="link-orange">Şifremi Unuttum</a>
+                </p>
+            </div>
+            
+
+            
+        </form>
+    </div>
+</div>
+
+<div class="right-side"></div>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
+

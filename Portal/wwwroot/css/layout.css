@@ -1,0 +1,441 @@
+/* Navbar stil ayarları */
+.header {
+    border-top: 1px solid green;
+    /* border-bottom: 2px solid green; */
+}
+
+
+
+/* Header'deki yazı ve ikonları turuncu yapma */
+.header .nav-link, 
+.header .logo span,
+.header .toggle-sidebar-btn,
+.header .search-bar .bi-search,
+.header .nav-profile .dropdown-toggle,
+.header .nav-item .bi {
+    color: green !important; /* Yazı ve ikon rengi turuncu */
+    
+   
+}
+
+/* Profil dropdown menüsü ikonları için stil */
+.dropdown-menu.profile .dropdown-item i {
+    color: green !important; /* Profil dropdown menüsü ikon rengi turuncu */
+}
+
+/* Profil dropdown menüsü yazıları için stil */
+.dropdown-menu.profile .dropdown-item span {
+    color: green !important; /* Profil dropdown menüsü yazı rengi turuncu */
+}
+
+/* Arama formu butonu turuncu yapma */
+.search-form button {
+    border: none !important;
+    color: #ffffff !important; /* Arama butonu ikon rengi beyaz */
+}
+
+/* Arama formu input stil ayarları */
+.search-form input {
+    border: 1px solid green !important; /* Arama kutusu sınır rengi turuncu */
+    color: green !important; /* Arama kutusu yazı rengi turuncu */
+}
+
+                    body {
+                    background-color: white !important; 
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                    margin: 0;
+                    padding-bottom: 60px; /* Footer'ın yüksekliği kadar alt boşluk bırakın */
+
+                }
+
+
+
+                .container {
+                    margin-bottom: 60px; /* Adjust based on the footer height */
+                }
+                #example {
+                background-color: white;
+            }
+            .header{
+
+            height: 68px; /* Navbar yüksekliği */
+            display: flex;
+            align-items: center;
+            padding: 0 20px; /* Navbar iç kenar boşlukları */
+            }
+            
+        /* Navbar'daki logo ve profil resminin yerleşimi */
+        .header .logo img {
+            height: 65px !important; /* Logonun yüksekliğini artırma */
+            width: 65px !important; /* Genişliği orijinal oranında tut */
+            display: block;
+            object-fit: contain; /* Görüntüyü orijinal oranlarında sığdırma */
+            padding: 0; /* Üstten ve alttan boşlukları kaldırma */
+            margin: 0; /* Üstten ve alttan boşlukları kaldırma */
+            max-height: 100%; /* Yüksekliği tam sığdır */
+        }
+
+        /* Profil resmini dairesel yapmak ve boyutunu artırmak */
+        .header .nav-profile img {
+            height: 55px !important; /* Profil resminin yüksekliğini artırma */
+            width: 55px !important; /* Genişliği de aynı oranda artırma */
+            border-radius: 50%; /* Profil resmini daire şeklinde gösterme */
+            object-fit: cover; /* Görüntüyü tam olarak sığdırma */
+            max-height: 100%; /* Yüksekliği tam sığdır */
+        }
+
+        /* Toggle ve Home ikonları */
+        .header .bi-list,
+        .header .bi-house {
+            color: green !important;
+
+            /* color: #ff8800; */
+            margin-right: 10px; /* Sağ tarafa boşluk ekleme */
+        }
+
+        /* Search bar butonunu turuncu yapma */
+        .header .search-bar button {
+            color: #ffffff; /* Buton yazı rengi */
+        } */
+        /* Profilim ve Şifre Değiştir yazılarını ve ikonlarını beyaz yapma, ikonları büyütme */
+        .nav-content li a span {
+            color: #ffffff !important; /* Yazı rengi beyaz */
+        }
+
+        .nav-content li a i {
+            color: #ffffff !important; /* İkon rengi beyaz */
+            font-size: 1.2em !important; /* İkon boyutunu büyüt */
+            margin-right: 8px; /* Yazı ile ikon arasına boşluk ekle */
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: white; /* Footer arka plan rengini isteğinize göre ayarlayın */
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000; /* Footer'ın diğer öğelerin üzerinde durmasını sağlar */
+        }
+
+        .container {
+            flex: 1; /* İçerik alanını genişletmek için flex özelliği */
+        }
+        .back-to-top {
+            background-color: green !important; /* Arka plan rengi turuncu */
+            color: #ffffff !important; /* İkon rengi beyaz */
+            border-radius: 50%; /* Daire şeklinde yapma */
+            width: 40px; /* Buton genişliği */
+            height: 40px; /* Buton yüksekliği */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
+            transition: background-color 0.3s ease; /* Hover geçiş efekti */
+        }
+
+        .back-to-top i {
+            font-size: 1.5em; /* İkon boyutunu büyütme */
+        }
+
+        .back-to-top:hover {
+            background-color: #e07b00 !important; /* Hover sırasında daha koyu turuncu */
+        }
+
+        /* Profil menüsü yazı ve ikon renkleri */
+        .nav-content li a span {
+            color: #ffffff !important; /* Yazı rengi beyaz */
+        }
+
+        .nav-content li a i {
+            color: #ffffff !important; /* İkon rengi beyaz */
+        }
+        #notificationList {
+            min-width: 300px;
+            top: 73px !important; /* Üstten 70px boşluk */
+            transform: none !important; /* "transform" özelliğini geçersiz kıl sola kaymasını önledik  */
+            font-family: Arial, sans-serif;
+            font-size:15px;
+            max-height: 800px; /* 10 bildirimden sonra aşağı kayması için maksimum yükseklik belirle */
+        
+            overflow-y: auto; /* İçerik taşarsa kaydırma ekle ama scrollbar'ı gizle */
+            scrollbar-width: none; /* Firefox için scrollbar'ı gizle */
+        }
+        
+        /* Webkit tabanlı tarayıcılar (Chrome, Safari) için scrollbar'ı gizle */
+        #notificationList::-webkit-scrollbar {
+            display: none;
+        }
+        
+        
+        /* Bildirim öğeleri (li) için stil */
+        #notificationList li {
+            padding: 8px 12px;
+            border-bottom: 1px solid #efebe9; /* İnce gri çizgi */
+            transition: background-color 0.2s ease-in-out;
+            height: 65px;
+        }
+        
+        /* Hover efekti */
+        #notificationList li:hover {
+            color: green; /* Yazıyı beyaz yaparak kontrast sağla */
+            cursor: pointer; /* El simgesi görünümü */
+            font-weight: bold;
+        }
+        /* Bağlantı stilini özelleştirme */
+        .custom-notification-link {
+            background-color: #ffffff; /* Arka plan rengini beyaz yap */
+            padding: 10px 15px; /* Sağ ve soldan boşluk ekle */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* İkon stilini özelleştirme */
+        .custom-notification-icon {
+            font-size: 1.8rem !important; /* İkonu büyüt */
+            font-weight: bold !important; /* Kalın yap */
+            margin-right: 8px !important; /* Sağdan boşluk ver */
+            color: #008000 !important; /* İkon rengini ayarla */
+        }
+        
+        
+        .position-relative {
+            position: relative;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            border-radius: 50%; /* Daire şekli vermek için */
+            transform: translate(50%, -50%); /* Sağ üst köşeye göre ayarla */
+        }
+        
+        
+        /* menü */
+        
+        
+        /* Sidebar stil ayarları */
+        .sidebar {
+            width: 310px !important;
+            background-color: #2f2f2f !important;
+        }
+        
+        /* Nav item stil ayarları (Klasörler) */
+        .nav-item > a.nav-link {
+            color: #ffffff !important;
+            background-color: #444444 !important;
+            padding: 6px 10px !important;
+            border-radius: 5px !important;
+            margin-bottom: 12px !important;
+            margin-top: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: 34px !important;
+            transition: all 0.3s ease !important;
+        }
+        /* Sağdaki ok simgelerinin stilini ayarlamak için */
+        .nav-link .bi-chevron-down,
+        .nav-link .bi-chevron-right {
+            display: inline-block;
+            padding: 5px; /* Okun etrafında biraz boşluk ekle */
+            border-radius: 5px; /* Köşeleri yuvarla */
+            margin-left: auto; /* Ok simgesini sağa hizala */
+            font-size: 1.2em; /* Ok simgesinin boyutunu ayarla */
+            height: auto;
+        }
+        
+        
+        /* Klasör ikonları ve yazılar için özel stil */
+        .nav-item > a.nav-link > i {
+            margin-right: 8px !important;
+            color:  rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+            font-size: 1.3em !important; /* İkon boyutunu artırma */
+            font-weight: bold !important; /* İkonları kalın yapma */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Gölge ekleyerek ikonları daha belirgin yapma */
+        }
+        
+        /* Klasörlerin sağındaki ok (chevron) ikonları için özel stil */
+        .nav-item > a.nav-link .bi-chevron-down {
+        
+            color:  rgb(180, 255, 162)  !important;
+                font-size: 1.2em !important; /* Ok ikonlarını daha büyük yap */
+            transition: all 0.3s ease !important; /* Hover geçiş efekti */
+        }
+        
+        /* Hover efekti (Yazı ve ikonlar turuncu) */
+        .nav-item > a.nav-link:hover {
+            /* color: #ff8c00 !important; */
+            color:  rgb(180, 255, 162)   !important;
+            background-color: #444444 !important;
+        }
+        
+        .nav-item > a.nav-link:hover i {
+            /* color: #ff8c00 !important; */
+            color:  rgb(180, 255, 162)   !important;
+        }
+        
+        /* Controller listesi stil ayarları (Klasöre tıklayınca açılan) */
+        .nav-content > li > a.nav-link.collapsed {
+            color: #000 !important; /* Controller adları beyaz */
+            background-color: #2f2f2f !important;
+            padding: 4px 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: 25px !important;
+            padding-left: 20px !important;
+        }
+        
+        
+        
+        /* Controller ikonları için genel stil */
+        .nav-content > li > a.nav-link.collapsed > i {
+            margin-right: 8px !important;
+            flex-shrink: 0 !important;
+            color: #ff6c00 !important; /* Varsayılan ikon rengi yeşil */
+            font-size: 0.9em !important; /* İkon boyutunu artırma */
+            font-weight: bold !important; /* İkonları kalın yapma */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Gölge ekleyerek ikonları daha belirgin yapma */
+        }
+        
+        
+        
+        .nav-content > li > a.nav-link.collapsed:focus i, 
+        .nav-content > li > a.nav-link.collapsed:active i {
+            color:   rgb(180, 255, 162)  !important; /* İkon rengi yeşil kalsın */
+        }
+        
+        /* Actionların sağındaki ok (chevron) ikonları için özel stil */
+        .nav-content > li > ul.nav-content > li > a .bi-chevron-right {
+            color:  rgb(180, 255, 162)   !important; /* Action ok ikonları yeşil */
+            font-size: 1.2em !important; /* Ok ikonlarını biraz daha büyük yap */
+            transition: all 0.3s ease !important; /* Hover geçiş efekti */
+        }
+        
+        
+        /* Tıklanan action için özel stil */
+        .nav-content > li > ul.nav-content > li > a.active {
+            color: rgb(180, 255, 162)   !important;
+            background-color: #ffffff !important;
+        }
+        
+        /* Controller ve action listeleri için hover efekti */
+        .nav-content > li > a.nav-link.collapsed:hover,
+        .nav-content > li > ul.nav-content > li > a:hover {
+            color: #ff6c00 !important;
+            background-color: #444444 !important;
+        }
+        
+        .nav-content > li > ul.nav-content > li > a > i:hover {
+            color: #ff6c00 !important;
+        }
+        
+        /* Action listesi (alt menü) stil ayarları */
+        .nav-content > li > ul.nav-content > li > a {
+            color: #ffffff !important;
+            background-color: #333333 !important;
+            padding-left: 35px !important;
+            padding-right: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: 22px !important;
+        }
+        
+        /* Action ikonları için özel stil (renkli ve canlı) */
+        .nav-content > li > ul.nav-content > li > a > i {
+            margin-right: 8px !important;
+            color: #ffffff !important;
+            flex-shrink: 0 !important;
+            font-size: 1.3em !important; /* İkon boyutunu artırma */
+            font-weight: bold !important; /* İkonları kalın yapma */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Gölge ekleyerek ikonları daha belirgin yapma */
+        }
+        
+        /* Profil menüsünün etkilenmemesi için özel stil */
+        .nav-item.dropdown.pe-3 .nav-link.nav-profile {
+            padding: 10px 15px !important;
+            height: auto !important;
+            background-color: inherit !important;
+            color: inherit !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        
+        .nav-item.dropdown.pe-3 .dropdown-menu.profile {
+            background-color: #fff !important;
+            color: #000 !important;
+        }
+        
+        .nav-item.dropdown.pe-3 .dropdown-menu.profile .dropdown-item {
+            padding: 10px 15px !important;
+        }
+        
+        .nav-item.dropdown.pe-3 .dropdown-menu.profile .dropdown-header {
+            padding: 10px 15px !important;
+        }
+        
+        /* Alt menü ikonlarının rengini kırmızı yap */
+        #cezalar-nav .nav-content li a i {
+            color: #dc3545; /* Kırmızı renk */
+            transition: color 0.3s ease;
+        }
+        
+        /* Hover durumunda ikonların rengini daha koyu kırmızı yap */
+        #cezalar-nav .nav-content li a:hover i {
+            color: #b71c1c; /* Hover durumda koyu kırmızı */
+        }
+        
+        
+        /* Tüm tarayıcılar için scrollbar tasarımı
+        html, body {
+          overflow: auto !important; 
+        } */
+        
+        /* WebKit tarayıcılar için (Chrome, Safari)
+        ::-webkit-scrollbar {
+          width: 100px !important; 
+          height: 100px !important;
+        } */
+        
+        ::-webkit-scrollbar-thumb {
+          background-color: #888 !important; /* Scrollbar renk ayarı */
+          border-radius: 0 !important; /* Köşeleri dikdörtgen */
+        }
+        
+        ::-webkit-scrollbar-track {
+          background-color: #f1f1f1 !important; /* Scrollbar track rengi */
+        }
+        
+        /* Firefox için */
+        html {
+          scrollbar-width: thin !important; /* İnce scrollbar */
+          scrollbar-color: #888 #f1f1f1 !important; /* Scrollbar renkleri */
+        }
+        
+
+        /* Alt linklerin arka planını ve metin rengini özelleştirme */
+        #cezalar-nav a {
+            color: #333 !important;
+            background-color: #444444 !important;
+            border-radius: 5px !important;
+            display: block !important;
+            margin-bottom: 5px !important;
+            text-decoration: none !important;
+            font-size: 14px !important;
+            ;
+        }
+        
+        /* Hover efekti */
+        #cezalar-nav a:hover {
+            text-decoration: none !important;
+        }
+
+
+
+   

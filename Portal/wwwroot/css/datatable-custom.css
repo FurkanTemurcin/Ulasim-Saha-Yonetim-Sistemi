@@ -1,0 +1,192 @@
+:root {
+    --dt-row-selected: 255, 255, 255; /* Seçili satırların arka plan rengi beyaz */
+    --dt-row-selected-text: 0, 0, 0; /* Seçili satırların metin rengi siyah */
+    --dt-row-selected-link: 0, 0, 0; /* Seçili satırdaki linklerin rengi siyah */
+    --dt-row-stripe: 255, 255, 255; /* Çizgili satırların arka plan rengi beyaz */
+    --dt-row-hover: 255, 255, 255; /* Üzerine gelindiğinde satırların arka plan rengi beyaz */
+    --dt-column-ordering: 255, 255, 255; /* Sıralama yapılan sütunların arka plan rengi beyaz */
+    --dt-html-background: white; /* HTML arka planı beyaz */
+}
+
+:root.dark {
+    --dt-html-background: white; /* Karanlık tema için de HTML arka planı beyaz */
+}
+
+/* Tablo genel düzeni */
+table.dataTable {
+    table-layout: fixed !important; /* Hücre genişliklerini eşit yap */
+    width: 100% !important; /* Tablo genişliği sayfanın tamamına yayılır */
+    background-color: white !important; /* Tablo arka planını beyaz yap */
+    border-spacing: 0; /* Hücreler arası boşlukları kaldır */
+    border-collapse: collapse; /* Çizgileri düzgün hale getir */
+}
+
+table.dataTable tbody tr.odd,
+table.dataTable tbody tr.even {
+    height: 40px !important; /* Satır yüksekliğini 40 piksel olarak ayarla */
+    background-color: white !important; /* Satır arka planını beyaz yap */
+    border-bottom: 1px solid #ddd; /* Satırların altında çizgi */
+}
+
+table.dataTable tbody tr.odd td,
+table.dataTable tbody tr.even td {
+    height: 60px !important; /* Hücre yüksekliğini 40 piksel olarak ayarla */
+    padding: 0 !important; /* Hücre içi boşlukları kaldır */
+    vertical-align: middle !important; /* İçeriği dikey olarak ortala */
+    background-color: white !important; /* Hücre arka planını beyaz yap */
+    overflow: hidden !important; /* Taşan içeriği gizle */
+    box-sizing: border-box; /* Kenar ve padding'i dahil et */
+}
+
+table.dataTable thead th {
+    height: 40px !important; /* Başlıkların yüksekliğini de 40 piksel yap */
+    padding: 10px; /* Başlıklara boşluk ekle */
+    background-color: white !important; /* Başlık arka planını beyaz yap */
+    border-bottom: 2px solid #ddd; /* Başlıkların altında çizgi */
+}
+
+
+.card-body h4 {
+    font-size: 1.3rem; /* Yazı boyutunu ayarla */
+    font-weight: bold; /* Kalın yap */
+    color: #333; /* Yazı rengini ayarla */
+    margin-top: 20px; /* Üstten boşluk ekle */
+    margin-bottom: 15px; /* Alttan boşluk ekle */
+    padding-left: 10px; /* Sol taraftan iç boşluk ekle */
+    border-left: 4px solid #ff8800; /* Sol tarafta mor bir çizgi */
+}
+
+
+/* Sayfalama butonları genel stil */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: #f8f9fa; /* Butonların arka plan rengini belirle */
+    color: #ff8800 !important; /* Buton metninin rengini belirle */
+    border: 1px solid #ddd; /* Buton kenarlığını belirle */
+    padding: 5px 10px; /* Buton iç boşluklarını ayarla */
+    margin: 0 2px; /* Butonlar arasındaki boşluğu ayarla */
+    border-radius: 4px; /* Butonlara yuvarlak köşeler ekle */
+    cursor: pointer; /* Fareyi üzerine getirdiğinde el işareti */
+}
+
+/* Mevcut sayfa numarası butonu */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #ff8800; /* Aktif butonun arka plan rengini belirle */
+    color: white !important; /* Aktif buton metninin rengini belirle */
+    border: 1px solid #ff8800; /* Aktif buton kenarlığını belirle */
+}
+
+/* Sayfalama butonlarına fareyle gelindiğinde */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #e0e0e0 !important; /* Hover durumunda arka plan rengi */
+    color: #ff8800 !important; /* Hover durumunda metin rengini aynen koru */
+    border: 1px solid #ddd !important; /* Hover durumunda kenarlık rengi */
+}
+
+/* Devre dışı bırakılmış (disabled) sayfalama butonları */
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    background-color: #f1f1f1; /* Devre dışı butonun arka plan rengi */
+    color: #ccc !important; /* Devre dışı buton metin rengi */
+    border: 1px solid #ddd; /* Devre dışı buton kenarlığı */
+    cursor: not-allowed; /* Fareyi üzerine getirdiğinde yasak işareti */
+}
+
+/* Sayfalama buton grubu stili */
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 10px; /* Sayfalama butonları ile tablo arasındaki boşluğu ayarla */
+    text-align: center; /* Butonları yatayda ortala */
+}
+
+
+/* btn-success butonu genel stil */
+.btn-success {
+    background-color: #28a745 !important; /* Butonun arka plan rengini yeşil yap */
+    border-color: #28a745 !important; /* Butonun kenarlık rengini yeşil yap */
+    color: white !important; /* Buton metin rengini beyaz yap */
+    padding: 10px 20px; /* Buton iç boşluklarını artır */
+    border-radius: 5px; /* Buton köşelerini yuvarla */
+    font-size: 16px; /* Buton metin boyutunu ayarla */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hover ve tıklama animasyonları ekle */
+}
+
+/* Hover durumunda stil */
+.btn-success:hover {
+    background-color: #218838 !important; /* Hover durumunda arka plan rengini koyulaştır */
+    border-color: #1e7e34 !important; /* Hover durumunda kenarlık rengini koyulaştır */
+    transform: scale(1.05); /* Hover durumunda butonu biraz büyüt */
+}
+
+/* Tıklama durumunda stil */
+.btn-success:active {
+    background-color: #1e7e34 !important; /* Tıklama durumunda arka plan rengini daha da koyulaştır */
+    border-color: #1c7430 !important; /* Tıklama durumunda kenarlık rengini daha da koyulaştır */
+    transform: scale(1.02); /* Tıklama durumunda butonu biraz küçült */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); /* Tıklama durumunda iç gölge ekle */
+}
+
+/* Butonun devre dışı bırakılmış (disabled) hali */
+.btn-success.disabled, .btn-success:disabled {
+    background-color: #6c757d !important; /* Devre dışı bırakılmış buton arka plan rengi */
+    border-color: #6c757d !important; /* Devre dışı bırakılmış buton kenarlık rengi */
+    color: #ffffff !important; /* Devre dışı bırakılmış buton metin rengi */
+    cursor: not-allowed; /* Devre dışı bırakılmış buton üzerinde fare işareti */
+    opacity: 0.65; /* Devre dışı bırakılmış butonun şeffaflığı */
+}
+
+/* responsive */
+
+/* Tablolar için responsive yapı */
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto; /* Yatay kaydırmayı etkinleştir */
+    -webkit-overflow-scrolling: touch; /* Mobil cihazlarda yumuşak kaydırma */
+}
+
+/* Tablo görünümü */
+#example {
+    width: 100% !important; /* Tablo genişliğini kapsayıcıya uyumlu yap */
+}
+
+/* Tablo hücreleri */
+#example th, #example td {
+    padding: 12px; /* Hücre iç boşlukları */
+    text-align: left; /* Metni sola hizala */
+    white-space: nowrap; /* Uzun metinlerin taşmasını engeller */
+}
+
+/* Tabloda uzun metinler için kaydırma */
+#example td {
+    word-wrap: break-word; /* Metni hücre içinde sar */
+}
+
+/* 
+#example {
+    width: 100% !important;
+    overflow-x: auto !important;
+    display: block !important;
+  }
+  
+  #example {
+      overflow-x: auto !important; 
+      overflow-y: hidden; 
+  }
+  
+  #example::-webkit-scrollbar {
+      height: 20px; 
+  }
+  
+  #example::-webkit-scrollbar-thumb {
+      background-color: #888; 
+      border-radius: 5px; 
+      border: 4px solid #f1f1f1;
+  }
+  
+  #example::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+  }
+  
+  #example {
+      scrollbar-width: thin;
+      scrollbar-color: #888 #f1f1f1; 
+  }
+   */

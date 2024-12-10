@@ -1,0 +1,1369 @@
+﻿@model Portal.ViewModels.USYS.RaporViewModel
+@{
+    Layout = "_Layout";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searchable Table</title>
+
+    <!-- CSS Dosyaları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/rapor.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+</head>
+
+<h1 class="card-title custom-title"><i class="far fa-chart-bar"></i> Tutanak - Denetim Raporları</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-6 d-flex align-items-stretch">
+            <!-- small box -->
+            <div class="small-box flex-fill" style="background-color:rgba(220, 53, 69, 0.8);">
+                <div class="inner">
+                    <h3 class="text-white">@Model.IhlalTutanakSayisi</h3>
+                    <p class="text-white">İHLÂL TUTANAĞI SAYISI</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-clipboard"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6 d-flex align-items-stretch">
+            <!-- small box -->
+            <div class="small-box flex-fill" style="background-color:rgba(160, 196, 225, 1) ">
+                <div class="inner">
+                    <h3 class="text-white">@Model.IhtarTutanakSayisi</h3>
+                    <p class="text-white">İHTAR TUTANAĞI SAYISI</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-alert"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-3 col-6 d-flex align-items-stretch">
+            <!-- small box -->
+            <div class="small-box flex-fill" style="background-color: rgba(144, 238, 144, 1);">
+                <div class="inner">
+                    <h3 class="text-white">@Model.DenetimSayisi</h3>
+                    <p class="text-white">DENETİM SAYISI</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+            </div>
+
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6 d-flex align-items-stretch">
+            <!-- small box -->
+            <div class="small-box bg-secondary flex-fill">
+                <div class="inner">
+                    <h3 style="color:white">@Model.ToplamAracSayisi</h3>
+                    <p style="color:white">ARAÇ SAYISI</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-car"></i>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-- Chart Alanı -->
+<div class="row">
+    <!-- Pie Chart -->
+    <div class="col-12 mb-4">
+        <div class="card card-primary card-outline chart-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-pie"></i> Denetim - Tutanak Sayıları
+                </h3>
+                <!-- Seçili Bilgiler (Ortada) -->
+                <div id="selectedInfo" class="text-center mx-auto">
+                    <p id="selectedPlaka">Plaka: </p>
+                    <p id="selectedDateRange">Tarih Aralığı: </p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button id="showAllButtonPieChart" class="btn btn-secondary" style="height: 38px; margin-right: 5px;">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <!-- Plaka Dropdown -->
+                    <div class="form-group" style="width: 200px; margin-bottom: 0; margin-right: 10px; margin-left: 10px;">
+                        <select id="plakaSelect" class="form-control" style="height: 38px;">
+                            <option value="">Plaka Seçin</option>
+                        </select>
+                    </div>
+                    <!-- Tarih Aralığı Seçim Butonu -->
+                    <div class="form-group text-center" style="margin-bottom: 0;">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dateRangeModalPieChart" style="height: 38px; margin-left: 5px;">
+                            <i class="fas fa-calendar-alt"></i>
+                        </button>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div id="pieChart" class="echart" style="width: 100%; height: 500px; position: relative; top: -20px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="dateRangeModalPieChart" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalPieChartLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dateRangeModalPieChartLabel">Tarih Aralığı Seçimi</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="startDatePieChart">Başlangıç Tarihi</label>
+                    <input type="date" class="form-control" id="startDatePieChart">
+                </div>
+                <div class="form-group">
+                    <label for="endDatePieChart">Bitiş Tarihi</label>
+                    <input type="date" class="form-control" id="endDatePieChart">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="applyDateRangePieChart">Uygula</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .card-body {
+        position: relative; /* İçindeki canvas'ın konumunu etkilemek için gerekli */
+        overflow: hidden; /* Taşmaları gizler */
+        height: 400px; /* Sabit yükseklik */
+    }
+
+    #selectedPlaka, #selectedDateRange {
+        display: none; /* Başlangıçta gizle */
+    }
+
+</style>
+<div class="row">
+    <!-- Line Chart for İhlaller -->
+    <div class="col-md-6 mb-4">
+        <div class="card card-primary card-outline chart-card">
+            <!-- Tarih Seçimi İçin Inputlar -->
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i> İhlâllerin Zamana Göre Grafiği
+                </h3>
+                <label for="startDateIhlal">Başlangıç Tarihi :</label>
+                <input type="date" id="startDateIhlal" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;" />
+                <label for="endDateIhlal">Bitiş Tarihi :</label>
+                <input type="date" id="endDateIhlal" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;" />
+                <button id="refreshButtonIhlal" class="btn btn-secondary" style="height: 38px; margin-left: 5px;">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+            </div>
+
+            <div class="card-body" style="padding: 0; height: 400px; overflow: hidden;">
+                <canvas id="lineChartIhlal" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Line Chart for Denetimler -->
+    <div class="col-md-6 mb-4">
+        <div class="card card-primary card-outline chart-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i> Denetimlerin Zamana Göre Grafiği
+                </h3>
+                <label for="startDateDenetim">Başlangıç Tarihi :</label>
+                <input type="date" id="startDateDenetim" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;" />
+                <label for="endDateDenetim">Bitiş Tarihi :</label>
+                <input type="date" id="endDateDenetim" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;" />
+                <button id="refreshButtonDenetim" class="btn btn-secondary" style="height: 38px; margin-left: 5px;">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+            </div>
+
+            <div class="card-body" style="padding: 0; height: 400px; overflow: hidden;">
+                <canvas id="lineChartDenetim" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="row">
+    <!-- Bar chart -->
+    <div class="col-md-12 mb-4">
+        <div class="card card-primary card-outline bar-chart-card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Personel Denetim Sayısı
+                </h3>
+                <div class="d-flex align-items-center">
+                    <button id="showAllButtonPersonel" class="btn btn-secondary" style="height: 38px; margin-right: 5px;">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <input type="date" id="startDatePersonel" class="form-control form-control-sm" style="margin-right: 5px; margin-left: 10px;" placeholder="Başlangıç Tarihi" />
+                    <input type="date" id="endDatePersonel" class="form-control form-control-sm" style="margin-right: 10px;" placeholder="Bitiş Tarihi" />
+                    <button id="filterButtonPersonel" class="btn btn-primary" style="height: 38px; margin-left: 5px;">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+
+
+
+                </div>
+            </div>
+
+            <div class="card-body center-content">
+                <canvas id="bar-chart" style="width: 80%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Araç Denetim Sayısı Chart -->
+    <div class="col-md-12 mb-4">
+        <div class="card card-primary card-outline">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Araç Denetim Sayısı
+                </h3>
+                <div class="d-flex align-items-center">
+                    <button id="showAllButtonArac" class="btn btn-secondary" style="height: 38px; margin-right: 5px;">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <input type="date" id="startDateArac" class="form-control form-control-sm" style="margin-right: 5px; margin-left: 10px;" placeholder="Başlangıç Tarihi" />
+                    <input type="date" id="endDateArac" class="form-control form-control-sm" style="margin-right: 10px;" placeholder="Bitiş Tarihi" />
+                    <button id="filterButtonArac" class="btn btn-primary" style="height: 38px; margin-left: 5px;">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body center-content">
+                <canvas id="aracDenetimChart" style="width: 80%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <!-- Ceza Türü Grafiği -->
+    <div class="col-md-12 mb-4">
+        <div class="card card-primary card-outline">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    Ceza Türü Grafiği
+                </h3>
+                <div class="d-flex align-items-center">
+                    <button id="showAllButtonYonetmelik" class="btn btn-secondary" style="height: 38px; margin-right: 5px;">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <input type="date" id="startDateYonetmelik" class="form-control form-control-sm" style="margin-right: 5px; margin-left: 10px;" placeholder="Başlangıç Tarihi" />
+                    <input type="date" id="endDateYonetmelik" class="form-control form-control-sm" style="margin-right: 10px;" placeholder="Bitiş Tarihi" />
+                    <button id="filterButtonYonetmelik" class="btn btn-primary" style="height: 38px; margin-left: 5px;">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body center-content">
+                <canvas id="cezaSayilariChartAm" style="width: 80%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .plaka-ceza-card {
+        min-height: 100px; /* Başlangıçta kısa tutmak için */
+        transition: min-height 0.3s ease; /* Yavaş geçiş efekti */
+    }
+
+    .center-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+
+<!-- Plaka Ceza Listesi Card -->
+<div class="card card-primary card-outline plaka-ceza-card">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-list"></i>
+            Plaka Ceza Listesi
+        </h3>
+    </div>
+    <div class="card-body" style="padding: 10px; min-height: 30px; max-height: 400px; overflow-y: auto;">
+        <!-- Search Bar and Date Range Button -->
+        <div class="input-group rounded mb-3">
+            <input type="search" class="form-control rounded" id="searchInputCeza" placeholder="Ceza Ara" aria-label="Search" aria-describedby="search-addon" />
+            <span class="input-group-text border-0" id="search-addon">
+                <i class="fas fa-search"></i>
+            </span>
+            <!-- Date Range Button -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dateRangeModal" style="height: 38px; margin-left: 5px;">
+                <i class="fas fa-calendar-alt"></i>
+            </button>
+        </div>
+
+        <!-- Date Range Modal -->
+        <div class="modal fade" id="dateRangeModal" tabindex="-1" aria-labelledby="dateRangeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dateRangeModalLabel">Tarih Aralığı Seç</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label">Başlangıç Tarihi</label>
+                            <input type="date" class="form-control" id="startDate" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">Bitiş Tarihi</label>
+                            <input type="date" class="form-control" id="endDate" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="button" class="btn btn-primary" id="applyDateRange">Uygula</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plaka Ceza Listesi Table -->
+        <table class="table" id="cezaTable" style="display: none;">
+            <thead id="tableHeader" style="display: none;">
+                <tr>
+                    <th>Plaka Numarası</th>
+                    <th>Plaka Türü</th>
+                    <th>Ceza Maddesi</th>
+                    <th>Tutanak Türü</th>
+                    <th>Oluşturma Tarihi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PlakaCezaListesi != null && Model.PlakaCezaListesi.Any())
+                {
+                    @foreach (var item in Model.PlakaCezaListesi)
+                    {
+                        <tr>
+                            <td>@item.PlakaNumarasi</td>
+                            <td class="plaka-turu">@item.PlakaTuruId</td>
+                            <td>@item.AnahtarKelime</td>
+                            <td>
+                                @{
+                                    string tutanakTuru = item.DenetimTuruId == 401 ? "ihlâl" :
+                                    item.DenetimTuruId == 402 ? "ihtar" :
+                                    "Denetim";
+                                }
+                                @tutanakTuru
+                            </td>
+                            <td>@item.OlusturmaTarihi.ToString("yyyy-MM-dd")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found.</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <!-- Sabit Footer -->
+    <div class="card-footer" id="fixedFooter">
+        <span id="recordCount">Toplam Kayıt: 0</span>
+    </div>
+</div>
+
+
+<!-- Toplam sayı -->
+<script>
+    // Satırları sayan ve toplamı güncelleyen işlev
+    function updateVisibleRowCount() {
+        const rows = document.querySelectorAll("#cezaTable tbody tr");
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            if (row.style.display !== "none") {
+                visibleCount++;
+            }
+        });
+
+        // Toplam kayıt sayısını güncelle
+        document.getElementById("recordCount").textContent = `Toplam Kayıt: ${visibleCount}`;
+    }
+
+    // Filtreleme işlevi
+    function applyFilters() {
+        const filterText = document.getElementById("searchInputCeza").value.trim().toLowerCase();
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        const rows = document.querySelectorAll("#cezaTable tbody tr");
+
+        // Çoklu kelime filtreleme için kelimeleri ayır
+        const filterWords = filterText.split(" ").filter(word => word); // Boş kelimeleri at
+
+        rows.forEach(row => {
+            const cells = Array.from(row.cells);
+
+            // Metin Filtreleme (Her kelime bir hücrede bulunmalı)
+            const textMatch = filterWords.every(word =>
+                cells.some(cell => cell.textContent.toLowerCase().includes(word))
+            );
+
+            // Tarih Filtreleme
+            const dateCell = cells[4]; // Tarih sütunu
+            const rowDate = dateCell ? new Date(dateCell.textContent) : null;
+            const dateMatch =
+                (!startDate || (rowDate && rowDate >= new Date(startDate))) &&
+                (!endDate || (rowDate && rowDate <= new Date(endDate)));
+
+            // Satırı göster veya gizle
+            const isVisible = textMatch && dateMatch;
+            row.style.display = isVisible ? "" : "none";
+        });
+
+        // Filtreleme sonrası satır sayısını güncelle
+        updateVisibleRowCount();
+
+        // Arama kutusu boşsa toplam kayıt sayısını 0 yap
+        if (filterText === '') {
+            document.getElementById("recordCount").textContent = `Toplam Kayıt: 0`;
+        }
+    }
+
+    // Filtreleme olayları
+    document.getElementById("searchInputCeza").addEventListener("input", applyFilters);
+    document.getElementById("startDate").addEventListener("change", applyFilters);
+    document.getElementById("endDate").addEventListener("change", applyFilters);
+
+    searchInput.addEventListener('keyup', applyFilters);
+
+    document.getElementById('applyDateRange').addEventListener('click', () => {
+        applyFilters();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('dateRangeModal'));
+        modal.hide();
+    });
+
+
+
+</script>
+
+
+<!--Plaka Ceza Tablo Scripti-->
+<script>
+    const searchInput = document.getElementById('searchInputCeza');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const table = document.getElementById('cezaTable');
+    const thead = document.getElementById('tableHeader');
+    const tbody = table.getElementsByTagName('tbody')[0];
+    const tr = tbody.getElementsByTagName('tr');
+
+    // Plaka türü ID'si ile karşılık gelen metin değerleri
+    const plakaTurleri = {
+        201: "J-plaka",
+        202: "M-plaka",
+        203: "S-plaka",
+        204: "T-plaka",
+        205: "H-plaka",
+        206: "Diğer"
+    };
+
+    const getPlakaTuru = (id) => plakaTurleri[id] || id;  // Eğer ID metne karşılık gelmiyorsa, ID'yi döndür
+
+    // Tablodaki her satırı plaka türüne göre güncelle
+    for (let i = 0; i < tr.length; i++) {
+        const tdPlakaTuru = tr[i].getElementsByClassName('plaka-turu')[0];
+        const plakaTuruId = tdPlakaTuru.textContent.trim();
+        tdPlakaTuru.textContent = getPlakaTuru(plakaTuruId);  // Plaka türünü metin olarak yazdır
+    }
+
+    // Filtreleme fonksiyonu
+    const filterTable = () => {
+        const input = searchInput.value.trim().toLowerCase();
+        const terms = input.split(" ").filter(term => term.trim() !== "");
+        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+
+        let rowVisible;
+
+        for (let i = 0; i < tr.length; i++) {
+            const td = tr[i].getElementsByTagName('td');
+            rowVisible = true;
+
+            for (let term of terms) {
+                let termFound = false;
+
+                for (let j = 0; j < td.length; j++) {
+                    let cellValue = td[j].textContent || td[j].innerText;
+
+                    if (j === 1) {
+                        const plakaTuru = getPlakaTuru(cellValue.trim());
+                        cellValue = plakaTuru.toLowerCase();
+                    }
+
+                    if (cellValue.toLowerCase().includes(term)) {
+                        termFound = true;
+                        break;
+                    }
+                }
+
+                if (!termFound) {
+                    rowVisible = false;
+                    break;
+                }
+            }
+
+            const olusturmaTarihi = new Date(td[4].textContent);
+            if (startDate && olusturmaTarihi < startDate) {
+                rowVisible = false;
+            }
+            if (endDate && olusturmaTarihi > endDate) {
+                rowVisible = false;
+            }
+
+            tr[i].style.display = rowVisible ? "" : "none";
+        }
+
+        table.style.display = (input || startDate || endDate) ? "" : "none";
+        thead.style.display = (input || startDate || endDate) ? "" : "none";
+    };
+
+    searchInput.addEventListener('keyup', filterTable);
+
+    document.getElementById('applyDateRange').addEventListener('click', () => {
+        filterTable();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('dateRangeModal'));
+        modal.hide();
+    });
+</script>
+
+
+<!--Pie Chart Scripti-->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Plaka ve tarih bilgilerini saklayacak değişkenler
+        let selectedPlaka = '';
+        let selectedStartDate = '';
+        let selectedEndDate = '';
+
+        // Select2 Başlatma
+        $('#plakaSelect').select2({
+            placeholder: 'Plaka Seçin',
+            allowClear: true,
+            ajax: {
+                url: '@Url.Action("GetPlates", "Rapor")',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return { term: params.term };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                id: item.value,
+                                text: item.text
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+            language: {
+                noResults: function () {
+                    return "Sonuç bulunamadı";
+                }
+            }
+        });
+
+        // Plaka seçildiğinde
+        document.getElementById('plakaSelect').addEventListener('change', function () {
+            selectedPlaka = this.value;  // Plakayı al
+            updateSelectedInfo();  // Seçilen bilgileri güncelle
+            handlePlakaSelection(null, null); // Plakaya göre verileri çek
+        });
+
+        // Tarih Aralığı uygulandığında
+        document.getElementById('applyDateRangePieChart').addEventListener('click', function () {
+            selectedStartDate = document.getElementById('startDatePieChart').value;  // Başlangıç tarihini al
+            selectedEndDate = document.getElementById('endDatePieChart').value;  // Bitiş tarihini al
+            updateSelectedInfo();  // Seçilen bilgileri güncelle
+            $('#dateRangeModalPieChart').modal('hide');  // Modalı kapat
+            handlePlakaSelection(selectedStartDate, selectedEndDate); // Tarih aralığına göre verileri çek
+        });
+
+        // Tarih aralığını gg.aa.yyyy formatına çeviren fonksiyon
+        function formatDate(date) {
+            const parts = date.split('-');
+            return `${parts[2]}.${parts[1]}.${parts[0]}`;
+        }
+
+        // Seçilen bilgileri ekrana yansıtma
+        function updateSelectedInfo() {
+            let plakaText = selectedPlaka ? `Plaka: ${selectedPlaka}` : ''; // Plaka metni boş bırakılacak
+            let dateRangeText = (selectedStartDate && selectedEndDate) ? `Tarih Aralığı:(${formatDate(selectedStartDate)}) / (${formatDate(selectedEndDate)})` : ''; // Tarih aralığı metni boş bırakılacak
+
+            // Plaka ve tarih aralığı yazılarının durumunu kontrol et
+            document.getElementById('selectedPlaka').textContent = plakaText;
+            document.getElementById('selectedDateRange').textContent = dateRangeText;
+
+            // Eğer plaka ve tarih aralığı verisi yoksa, başlıkları gizle
+            if (plakaText === '' && dateRangeText === '') {
+                document.getElementById('selectedPlaka').style.display = 'none';
+                document.getElementById('selectedDateRange').style.display = 'none';
+            } else {
+                document.getElementById('selectedPlaka').style.display = plakaText ? 'block' : 'none';
+                document.getElementById('selectedDateRange').style.display = dateRangeText ? 'block' : 'none';
+            }
+        }
+
+        // Sayfa yüklendiğinde, metinlerin başta gizli olduğundan emin olun
+        window.onload = function () {
+            // Başlangıçta metinleri gizle
+            document.getElementById('selectedPlaka').style.display = 'none';
+            document.getElementById('selectedDateRange').style.display = 'none';
+        };
+
+        // Chart'ı başlat
+        const myPieChart = echarts.init(document.querySelector("#pieChart"));
+
+        // Başlangıç verileri
+        const tutanakVerileri = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new
+        {
+            Ihlal = Model.IhlalTutanakSayisi,
+            Ihtar = Model.IhtarTutanakSayisi,
+            Denetim = Model.DenetimSayisi
+        }));
+
+        // İlk chart verilerini oluştur
+        const initialChartData = [];
+        if (tutanakVerileri.Ihlal > 0) {
+            initialChartData.push({ value: tutanakVerileri.Ihlal, name: 'İhlâl', itemStyle: { color: 'rgba(220, 53, 69, 0.8)' } });
+        }
+        if (tutanakVerileri.Ihtar > 0) {
+            initialChartData.push({ value: tutanakVerileri.Ihtar, name: 'İhtar', itemStyle: { color: 'rgba(160, 196, 225, 1)' } });
+        }
+        if (tutanakVerileri.Denetim > 0) {
+            initialChartData.push({ value: tutanakVerileri.Denetim, name: 'Denetim', itemStyle: { color: 'rgba(144, 238, 144, 1)' } });
+        }
+
+        // Echarts pie chart'ını başlat
+        myPieChart.setOption({
+            grid: { left: 0 },
+            tooltip: { trigger: 'item' },
+            legend: {
+                orient: 'vertical',
+                left: '10%',
+                top: 'middle',
+                textStyle: { fontSize: 18, color: '#000' },
+                itemWidth: 30,
+                itemHeight: 30
+            },
+            series: [{
+                name: 'Denetim - Tutanak Sayıları',
+                type: 'pie',
+                radius: '65%',
+                data: initialChartData.length > 0 ? initialChartData : [{ value: 0, name: 'Veri Yok', itemStyle: { color: 'rgba(200, 200, 200, 1)' } }],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                label: { show: true, fontSize: 14, color: '#000' },
+                labelLine: { show: true, length: 20, length2: 20 }
+            }]
+        });
+
+        // Modal için Apply butonu (ID değişiklikleriyle)
+        document.getElementById('applyDateRangePieChart').addEventListener('click', function () {
+            const startDate = document.getElementById('startDatePieChart').value;
+            const endDate = document.getElementById('endDatePieChart').value;
+
+            console.log(`Pie Chart için tarih aralığı: ${startDate} - ${endDate}`);
+
+            // Tarih aralığı ve plaka seçimini işleyin
+            handlePlakaSelection(startDate, endDate);
+
+            // Modalı kapat
+            $('#dateRangeModalPieChart').modal('hide');
+        });
+
+        // Tarih aralığı veya plaka seçimi için ortak işleyici
+        function handlePlakaSelection(startDate, endDate) {
+            const selectedPlaka = $('#plakaSelect').val();
+
+            if (selectedPlaka || startDate || endDate) {
+                // AJAX isteği
+                $.ajax({
+                    url: '@Url.Action("GetTutanakDataByPlaka", "Rapor")',
+                    type: 'GET',
+                    data: { plakaId: selectedPlaka, startDate, endDate },
+                    success: function (data) {
+                        const chartData = [];
+                        if (data.ihlal > 0) {
+                            chartData.push({ value: data.ihlal, name: 'İhlâl', itemStyle: { color: 'rgba(220, 53, 69, 0.8)' } });
+                        }
+                        if (data.ihtar > 0) {
+                            chartData.push({ value: data.ihtar, name: 'İhtar', itemStyle: { color: 'rgba(160, 196, 225, 1)' } });
+                        }
+                        if (data.denetim > 0) {
+                            chartData.push({ value: data.denetim, name: 'Denetim', itemStyle: { color: 'rgba(144, 238, 144, 1)' } });
+                        }
+
+                        // Chart'ı güncelle
+                        myPieChart.setOption({
+                            series: [{
+                                name: 'Denetim - Tutanak Sayıları',
+                                type: 'pie',
+                                radius: '65%',
+                                data: chartData.length > 0 ? chartData : [{ value: 0, name: 'Veri Yok', itemStyle: { color: 'rgba(200, 200, 200, 1)' } }]
+                            }]
+                        });
+
+                        // Veri yoksa uyarı göster
+                        if (chartData.length === 0) {
+                            alert("Veri bulunamadı veya veriler sıfır.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Veri getirilemedi. Lütfen tekrar deneyiniz.");
+                        console.error("Error: " + error);
+                    }
+                });
+            }
+        }
+
+        // Plaka seçildiğinde çalışacak
+        $('#plakaSelect').change(function () {
+            handlePlakaSelection(null, null); // Plakaya göre verileri çek
+        });
+
+        // Echart'ın resize işlemi
+        window.addEventListener("resize", function () {
+            myPieChart.resize();
+        });
+
+        // Tüm Verileri Göster butonu için click olayı
+        document.getElementById('showAllButtonPieChart').addEventListener('click', function () {
+            // Başlangıç verilerini güncelle
+            myPieChart.setOption({
+                series: [{
+                    name: 'Denetim - Tutanak Sayıları',
+                    type: 'pie',
+                    radius: '65%',
+                    data: initialChartData.length > 0 ? initialChartData : [{ value: 0, name: 'Veri Yok', itemStyle: { color: 'rgba(200, 200, 200, 1)' } }]
+                }]
+            });
+
+            // Tarih aralığı ve plaka seçimlerini temizle
+            document.getElementById('selectedDateRange').textContent = '';
+            document.getElementById('selectedDateRange').style.display = 'none';
+            document.getElementById('selectedPlaka').textContent = '';
+            document.getElementById('selectedPlaka').style.display = 'none';
+
+            // Plaka dropdown'ını temizle
+            $('#plakaSelect').val(null).trigger('change');
+        });
+
+        // Chart stil ayarı
+        document.querySelector('#pieChart').style.position = 'relative';
+        document.querySelector('#pieChart').style.top = '-60px';
+    });
+</script>
+
+</script>
+
+<!--Line Chart Scriptleri-->
+<script>
+    var myLineChartIhlal, myLineChartDenetim;
+
+    function getTutanakVerileri(type) {
+        // Başlangıç ve bitiş tarihlerini al
+        var startDate = document.getElementById(type === 'ihlal' ? 'startDateIhlal' : 'startDateDenetim').value;
+        var endDate = document.getElementById(type === 'ihlal' ? 'endDateIhlal' : 'endDateDenetim').value;
+
+        // AJAX isteğini gönder
+        $.ajax({
+            url: '@Url.Action("GetTutanakVerileri", "Rapor")',
+            type: 'GET',
+            data: {
+                startDate: startDate,
+                endDate: endDate,
+                dataType: type
+            },
+            success: function (data) {
+                // Tarih formatını dönüştür
+                data.labels = data.labels.map(label => {
+                    const parts = label.split('-'); // yyyy-aa-gg formatında parçala
+                    return `${parts[2]}.${parts[1]}.${parts[0]}`; // gg-aa-yyyy formatına çevir
+                });
+
+                var ctx = document.getElementById(type === 'ihlal' ? 'lineChartIhlal' : 'lineChartDenetim').getContext('2d');
+
+                if (type === 'ihlal' && myLineChartIhlal) {
+                    myLineChartIhlal.destroy();
+                } else if (type === 'denetim' && myLineChartDenetim) {
+                    myLineChartDenetim.destroy();
+                }
+
+                var chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: type === 'ihlal' ? 'İhlâl Tutanak Sayısı' : 'Denetim Sayısı',
+                            data: data.values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            fill: true,
+                            pointRadius: 6,
+                            pointHoverRadius: 7
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return Number.isInteger(value) ? value : ''; // Tam sayı değilse göstermeyin
+                                    }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    autoSkip: true,
+                                    maxTicksLimit: 10 // Gerekirse sıkışıklığı azaltır
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: { right: 0 }
+                        }
+                    }
+                });
+
+                if (type === 'ihlal') {
+                    myLineChartIhlal = chart;
+                } else {
+                    myLineChartDenetim = chart;
+                }
+
+                chart.resize();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    // Tarih aralığı değiştiğinde veriyi yükle
+    document.getElementById('startDateIhlal').addEventListener('change', function () {
+        getTutanakVerileri('ihlal');
+    });
+    document.getElementById('endDateIhlal').addEventListener('change', function () {
+        getTutanakVerileri('ihlal');
+    });
+    document.getElementById('startDateDenetim').addEventListener('change', function () {
+        getTutanakVerileri('denetim');
+    });
+    document.getElementById('endDateDenetim').addEventListener('change', function () {
+        getTutanakVerileri('denetim');
+    });
+
+    // Varsayılan verileri yükle
+    getTutanakVerileri('ihlal');
+    getTutanakVerileri('denetim');
+
+    // Yenile butonları için click olayları
+    document.getElementById('refreshButtonIhlal').addEventListener('click', function () {
+        // Mevcut grafiği yok et
+        if (myLineChartIhlal) {
+            myLineChartIhlal.destroy();
+        }
+
+        // Tarih alanlarını sıfırla
+        document.getElementById('startDateIhlal').value = '';
+        document.getElementById('endDateIhlal').value = '';
+
+        // Başlangıç verilerini göster
+        getTutanakVerileri('ihlal');
+    });
+
+    document.getElementById('refreshButtonDenetim').addEventListener('click', function () {
+        // Mevcut grafiği yok et
+        if (myLineChartDenetim) {
+            myLineChartDenetim.destroy();
+        }
+
+        // Tarih alanlarını sıfırla
+        document.getElementById('startDateDenetim').value = '';
+        document.getElementById('endDateDenetim').value = '';
+
+        // Başlangıç verilerini göster
+        getTutanakVerileri('denetim');
+    });
+
+</script>
+
+
+
+
+
+
+<!-- Personel Denetim Chart Code -->
+<script>
+    $(document).ready(function () {
+        const kullaniciDenetimSayilari = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.KullaniciDenetimSayilari));
+
+        function createBarChart(ctx, labels, data) {
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Denetim Adedi',
+                        data: data,
+                        backgroundColor: 'rgba(144, 238, 144, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Denetim Adedi'
+                            },
+                            ticks: {
+                                stepSize: 1
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Personeller'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        const sortedDenetimSayilari = kullaniciDenetimSayilari
+            .sort((a, b) => b.DenetimAdedi - a.DenetimAdedi)
+            .slice(0, 20);
+
+        const initialLabels = sortedDenetimSayilari.map(item => item.KullaniciAdi);
+        const initialData = sortedDenetimSayilari.map(item => Math.round(item.DenetimAdedi));
+
+        const ctx = document.getElementById('bar-chart').getContext('2d');
+        let barChart = createBarChart(ctx, initialLabels, initialData);
+
+        function updateChart(startDate, endDate) {
+            const apiUrl = '@Url.Action("GetFilteredData", "Rapor")';
+
+            $.ajax({
+                url: apiUrl,
+                type: 'GET',
+                data: {
+                    startDatePersonel: startDate,
+                    endDatePersonel: endDate
+                },
+                success: function (response) {
+                    console.log("API Response:", response);
+
+                    if (response && Array.isArray(response.kullaniciDenetimSayilari)) {
+                        const filteredDenetimSayilari = response.kullaniciDenetimSayilari
+                            .sort((a, b) => b.denetimAdedi - a.denetimAdedi)
+                            .slice(0, 20);
+
+                        const newLabels = filteredDenetimSayilari.map(item => item.kullaniciAdi);
+                        const newData = filteredDenetimSayilari.map(item => Math.round(item.denetimAdedi));
+
+                        console.log("New Labels:", newLabels);
+                        console.log("New Data:", newData);
+
+                        // Mevcut grafiği güncelle
+                        barChart.data.labels = newLabels;
+                        barChart.data.datasets[0].data = newData;
+
+                        // Grafiği güncelle
+                        barChart.update();
+                    } else {
+                        console.error("kullaniciDenetimSayilari verisi bulunamadı veya boş.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Hata:", error);
+                }
+            });
+        }
+
+        function showAllData() {
+            const sortedDenetimSayilari = kullaniciDenetimSayilari
+                .sort((a, b) => b.DenetimAdedi - a.DenetimAdedi);
+
+            const allLabels = sortedDenetimSayilari.map(item => item.KullaniciAdi);
+            const allData = sortedDenetimSayilari.map(item => Math.round(item.DenetimAdedi));
+
+            barChart.data.labels = allLabels;
+            barChart.data.datasets[0].data = allData;
+
+            barChart.update();
+        }
+
+        $("#filterButtonPersonel").click(function () {
+            const startDatePersonel = $("#startDatePersonel").val();
+            const endDatePersonel = $("#endDatePersonel").val();
+
+            if (!startDatePersonel || !endDatePersonel) {
+                alert("Lütfen geçerli bir tarih aralığı seçin.");
+                return;
+            }
+
+            updateChart(startDatePersonel, endDatePersonel);
+        });
+
+        $("#showAllButtonPersonel").click(function () {
+            showAllData();
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<!--Plaka Denetim Chart code -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Araç denetim sayıları verisini JSON formatına çevirme
+        const aracDenetimSayilari = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AracDenetimSayilari));
+
+        // Denetim sayılarına göre en çoktan en aza sıralama ve ilk 20 elemanı alma
+        const sortedDenetimSayilari = aracDenetimSayilari
+            .sort((a, b) => b.DenetimAdedi - a.DenetimAdedi)
+            .slice(0, 20);
+
+        // Kategoriler ve verilerin hazırlanması
+        const initialLabels = sortedDenetimSayilari.map(item => item.PlakaNumarasi);
+        const initialData = sortedDenetimSayilari.map(item => Math.round(item.DenetimAdedi));
+
+        // Bar chart'ı oluştur
+        const ctx = document.getElementById('aracDenetimChart').getContext('2d');
+        let aracDenetimChart = createBarChart(ctx, initialLabels, initialData);
+
+        function createBarChart(ctx, labels, data) {
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Denetim Adedi',
+                        data: data,
+                        backgroundColor: 'rgba(144, 238, 144, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Denetim Adedi'
+                            },
+                            ticks: {
+                                stepSize: 1 // Y ekseninde tam sayılar için adım boyutu
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Plakalar'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(startDate, endDate) {
+            const apiUrl = '@Url.Action("GetFilteredDataArac", "Rapor")';
+
+            $.ajax({
+                url: apiUrl,
+                type: 'GET',
+                data: {
+                    startDateArac: startDate,
+                    endDateArac: endDate
+                },
+                success: function (response) {
+                    console.log("API Response:", response);
+
+                    if (response && Array.isArray(response.aracDenetimSayilari)) {
+                        const filteredDenetimSayilari = response.aracDenetimSayilari
+                            .sort((a, b) => b.denetimAdedi - a.denetimAdedi)
+                            .slice(0, 20);
+
+                        const newLabels = filteredDenetimSayilari.map(item => item.plakaNumarasi);
+                        const newData = filteredDenetimSayilari.map(item => Math.round(item.denetimAdedi));
+
+                        console.log("New Labels:", newLabels);
+                        console.log("New Data:", newData);
+
+                        // Mevcut grafiği güncelle
+                        aracDenetimChart.data.labels = newLabels;
+                        aracDenetimChart.data.datasets[0].data = newData;
+
+                        // Grafiği güncelle
+                        aracDenetimChart.update();
+                    } else {
+                        console.error("aracDenetimSayilari verisi bulunamadı veya boş.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Hata:", error);
+                }
+            });
+        }
+
+        function showAllData() {
+            const allLabels = aracDenetimSayilari.map(item => item.PlakaNumarasi);
+            const allData = aracDenetimSayilari.map(item => Math.round(item.DenetimAdedi));
+
+            aracDenetimChart.data.labels = allLabels;
+            aracDenetimChart.data.datasets[0].data = allData;
+
+            aracDenetimChart.update();
+        }
+
+        $("#filterButtonArac").click(function () {
+            const startDateArac = $("#startDateArac").val();
+            const endDateArac = $("#endDateArac").val();
+
+            if (!startDateArac || !endDateArac) {
+                alert("Lütfen geçerli bir tarih aralığı seçin.");
+                return;
+            }
+
+            updateChart(startDateArac, endDateArac);
+        });
+
+        $("#showAllButtonArac").click(function () {
+            showAllData();
+            $("#startDateArac").val('');
+            $("#endDateArac").val('');
+        });
+    });
+</script>
+
+
+
+
+<!--Ceza Türü Chart code -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Ceza sayıları verisini JSON formatına çevirme
+        const cezaSayilari = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CezaSayilari));
+
+        // En büyük 20 elemanı almak için ceza sayıları verisini sıralayın
+        const top20CezaSayilari = cezaSayilari
+            .sort((a, b) => b.CezaAdedi - a.CezaAdedi) // Büyükten küçüğe sırala
+            .slice(0, 20); // İlk 20 elemanı al
+
+        // Kategoriler ve verilerin hazırlanması
+        const initialLabels = top20CezaSayilari.map(item => item.YonetmelikAnahtarKelime);
+        const initialData = top20CezaSayilari.map(item => Math.round(item.CezaAdedi));
+
+        // Bar chart'ı oluştur
+        const ctx = document.getElementById('cezaSayilariChartAm').getContext('2d');
+        let barChart = createBarChart(ctx, initialLabels, initialData);
+
+        function createBarChart(ctx, labels, data) {
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Ceza Adedi',
+                        data: data,
+                        backgroundColor: 'rgba(220, 53, 69, 0.8)',
+                        borderColor: 'rgba(220, 53, 69, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Ceza Adedi'
+                            },
+                            ticks: {
+                                stepSize: 1 // Y ekseninde tam sayılar için adım boyutu
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Maddeler'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(startDate, endDate) {
+            const apiUrl = '@Url.Action("GetFilteredDataYonetmelik", "Rapor")';
+
+            $.ajax({
+                url: apiUrl,
+                type: 'GET',
+                data: {
+                    startDateYonetmelik: startDate,
+                    endDateYonetmelik: endDate
+                },
+                success: function (response) {
+                    console.log("API Response:", response);
+
+                    if (response && Array.isArray(response.yonetmelikCezaSayilari)) {
+                        const filteredCezaSayilari = response.yonetmelikCezaSayilari
+                            .sort((a, b) => b.cezaAdedi - a.cezaAdedi)
+                            .slice(0, 20);
+
+                        const newLabels = filteredCezaSayilari.map(item => item.yonetmelikAnahtarKelime);
+                        const newData = filteredCezaSayilari.map(item => Math.round(item.cezaAdedi));
+
+                        console.log("New Labels:", newLabels);
+                        console.log("New Data:", newData);
+
+                        // Mevcut grafiği güncelle
+                        barChart.data.labels = newLabels;
+                        barChart.data.datasets[0].data = newData;
+
+                        // Grafiği güncelle
+                        barChart.update();
+                    } else {
+                        console.error("yonetmelikCezaSayilari verisi bulunamadı veya boş.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Hata:", error);
+                }
+            });
+        }
+
+        function showAllData() {
+            const allLabels = cezaSayilari.map(item => item.YonetmelikAnahtarKelime);
+            const allData = cezaSayilari.map(item => Math.round(item.CezaAdedi));
+
+            barChart.data.labels = allLabels;
+            barChart.data.datasets[0].data = allData;
+
+            barChart.update();
+        }
+
+        $("#filterButtonYonetmelik").click(function () {
+            const startDateYonetmelik = $("#startDateYonetmelik").val();
+            const endDateYonetmelik = $("#endDateYonetmelik").val();
+
+            if (!startDateYonetmelik || !endDateYonetmelik) {
+                alert("Lütfen geçerli bir tarih aralığı seçin.");
+                return;
+            }
+
+            updateChart(startDateYonetmelik, endDateYonetmelik);
+        });
+
+        $("#showAllButtonYonetmelik").click(function () {
+            showAllData();
+            $("#startDateYonetmelik").val('');
+            $("#endDateYonetmelik").val('');
+        });
+    });
+</script>
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+@model Portal.ViewModels.USYS.CreateAracPlakaViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <h2 class="card-title custom-title">Araç Ekle</h2>
+
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label for="PlakaNumarasi">Plaka Numarası</label>
+                <input type="text" class="form-control" asp-for="PlakaNumarasi" required />
+                <span asp-validation-for="PlakaNumarasi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Marka">Marka</label>
+                <input type="text" class="form-control" asp-for="Marka" />
+                <span asp-validation-for="Marka" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="VizeTarihi">Vize Tarihi</label>
+                <input type="date" class="form-control" asp-for="VizeTarihi" />
+                <span asp-validation-for="VizeTarihi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="KoltukKapasitesi">Koltuk Kapasitesi</label>
+                <input type="number" class="form-control" asp-for="KoltukKapasitesi" />
+                <span asp-validation-for="KoltukKapasitesi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Model">Model</label>
+                <input type="text" class="form-control" asp-for="Model" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="MotorNumarasi">Motor Numarası</label>
+                <input type="text" class="form-control" asp-for="MotorNumarasi" />
+                <span asp-validation-for="MotorNumarasi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="SasiNumarasi">Şasi Numarası</label>
+                <input type="text" class="form-control" asp-for="SasiNumarasi" />
+                <span asp-validation-for="SasiNumarasi" class="text-danger"></span>
+            </div>
+
+            <!-- Plaka Türü Dropdown -->
+            <div class="form-group">
+                <label for="PlakaTuruId">Plaka Türü</label>
+                <select asp-for="PlakaTuruId" class="form-control" asp-items="ViewBag.PlakaTuruList">
+                    <option value="">Plaka Türü Seçin</option>
+                </select>
+                <span asp-validation-for="PlakaTuruId" class="text-danger"></span>
+            </div>
+
+            <!-- Güzergah Dropdown -->
+            <div class="form-group">
+                <label for="GuzergahId">Güzergah</label>
+                <select asp-for="GuzergahId" class="form-control" asp-items="ViewBag.GuzergahList">
+                    <option value="">Güzergah Seçin</option>
+                </select>
+                <span asp-validation-for="GuzergahId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success" style="margin-top: -5px;">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

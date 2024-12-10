@@ -1,0 +1,39 @@
+@model Portal.ViewModels.Admin.UserRoleViewModel
+
+@{
+    ViewData["Title"] = "Kullanıcı Rolü Düzenle";
+}
+
+<h2>Kullanıcı Rolü Düzenle - @Model.Email</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label>Ad Soyad</label>
+        <input asp-for="FullName" class="form-control" readonly />
+    </div>
+    <div>
+        <h4>Roller</h4>
+        <ul>
+            @foreach (var role in Model.Roles)
+            {
+            <li>
+                <input type="checkbox" name="AssignedRoles" value="@role.Id" @(Model.AssignedRoles.Contains(role.Id) ? "checked" : "") />
+                <label>@role.Name</label>
+            </li>
+            }
+        </ul>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

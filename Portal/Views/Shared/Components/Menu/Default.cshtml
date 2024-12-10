@@ -1,0 +1,278 @@
+@using Portal.ViewModels.Admin;
+<style>
+/* Sidebar stil ayarları */
+.sidebar {
+    width: 310px !important;
+    background-color: #2f2f2f !important;
+}
+
+/* Nav item stil ayarları (Klasörler) */
+.nav-item > a.nav-link {
+    color: #ffffff !important;
+    background-color: #444444 !important;
+    padding: 6px 10px !important;
+    border-radius: 5px !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 34px !important;
+    transition: all 0.3s ease !important;
+}
+/* Sağdaki ok simgelerinin stilini ayarlamak için */
+.nav-link .bi-chevron-down,
+.nav-link .bi-chevron-right {
+    display: inline-block;
+    padding: 5px; /* Okun etrafında biraz boşluk ekle */
+    border-radius: 5px; /* Köşeleri yuvarla */
+    margin-left: auto; /* Ok simgesini sağa hizala */
+    font-size: 1.2em; /* Ok simgesinin boyutunu ayarla */
+    height: auto;
+}
+
+
+/* Klasör ikonları ve yazılar için özel stil */
+.nav-item > a.nav-link > i {
+    margin-right: 8px !important;
+ color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+    font-size: 1.3em !important; /* İkon boyutunu artırma */
+    font-weight: bold !important; /* İkonları kalın yapma */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Gölge ekleyerek ikonları daha belirgin yapma */
+}
+
+/* Klasörlerin sağındaki ok (chevron) ikonları için özel stil */
+.nav-item > a.nav-link .bi-chevron-down {
+
+    color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+    font-size: 1.2em !important; /* Ok ikonlarını daha büyük yap */
+    transition: all 0.3s ease !important; /* Hover geçiş efekti */
+}
+
+/* Hover efekti (Yazı ve ikonlar turuncu) */
+.nav-item > a.nav-link:hover {
+    /* color: #ff8c00 !important; */
+    color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+    background-color: #444444 !important;
+}
+
+.nav-item > a.nav-link:hover i {
+    /* color: #ff8c00 !important; */
+    color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+}
+
+/* Controller listesi stil ayarları (Klasöre tıklayınca açılan) */
+.nav-content > li > a.nav-link.collapsed {
+    color: #000 !important; /* Controller adları beyaz */
+    background-color: #2f2f2f !important;
+    padding: 4px 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 25px !important;
+    padding-left: 20px !important;
+}
+
+
+
+/* Controller ikonları için genel stil */
+.nav-content > li > a.nav-link.collapsed > i {
+    margin-right: 8px !important;
+    flex-shrink: 0 !important;
+    color: #ff6c00 !important; /* Varsayılan ikon rengi yeşil */
+    font-size: 0.9em !important; /* İkon boyutunu artırma */
+    font-weight: bold !important; /* İkonları kalın yapma */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Gölge ekleyerek ikonları daha belirgin yapma */
+}
+
+
+
+.nav-content > li > a.nav-link.collapsed:focus i, 
+.nav-content > li > a.nav-link.collapsed:active i {
+    color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+}
+
+/* Actionların sağındaki ok (chevron) ikonları için özel stil */
+.nav-content > li > ul.nav-content > li > a .bi-chevron-right {
+    color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+    font-size: 1.2em !important; /* Ok ikonlarını biraz daha büyük yap */
+    transition: all 0.3s ease !important; /* Hover geçiş efekti */
+}
+
+
+/* Tıklanan action için özel stil */
+.nav-content > li > ul.nav-content > li > a.active {
+    color: rgb(180, 255, 162) !important; /* Klasör ikonları turuncu */
+    background-color: #ffffff !important;
+}
+
+/* Controller ve action listeleri için hover efekti */
+.nav-content > li > a.nav-link.collapsed:hover,
+.nav-content > li > ul.nav-content > li > a:hover {
+    color: #ff6c00 !important;
+    background-color: #444444 !important;
+}
+
+.nav-content > li > ul.nav-content > li > a > i:hover {
+    color: #ff6c00 !important;
+}
+
+/* Action listesi (alt menü) stil ayarları */
+.nav-content > li > ul.nav-content > li > a {
+    color: #ffffff !important;
+    background-color: #333333 !important;
+    padding-left: 35px !important;
+    padding-right: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 22px !important;
+}
+
+/* Action ikonları için özel stil (renkli ve canlı) */
+.nav-content > li > ul.nav-content > li > a > i {
+    margin-right: 8px !important;
+    color: #ffffff !important;
+    flex-shrink: 0 !important;
+    font-size: 1.3em !important; /* İkon boyutunu artırma */
+    font-weight: bold !important; /* İkonları kalın yapma */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Gölge ekleyerek ikonları daha belirgin yapma */
+}
+
+/* Profil menüsünün etkilenmemesi için özel stil */
+.nav-item.dropdown.pe-3 .nav-link.nav-profile {
+    padding: 10px 15px !important;
+    height: auto !important;
+    background-color: inherit !important;
+    color: inherit !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.nav-item.dropdown.pe-3 .dropdown-menu.profile {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.nav-item.dropdown.pe-3 .dropdown-menu.profile .dropdown-item {
+    padding: 10px 15px !important;
+}
+
+.nav-item.dropdown.pe-3 .dropdown-menu.profile .dropdown-header {
+    padding: 10px 15px !important;
+}
+
+
+
+</style>
+@model Dictionary<string, Dictionary<string, List<MenuItemViewModel>>>
+
+    @foreach (var folderGroup in Model)
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#@(folderGroup.Key)-nav" data-bs-toggle="collapse" href="#">
+                <!-- Folder icon can be added here if necessary -->
+                <span>@folderGroup.Key</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="@(folderGroup.Key)-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                @foreach (var controllerGroup in folderGroup.Value)
+                {
+                    // Controller adları için ikon seçimi
+                    var controllerIconClass = controllerGroup.Key switch
+                    {
+                        "Bloglar" => "bi bi-journal-text",
+                        "KullanıcıYönetimi" => "bi bi-people-fill",
+                        "BirimAtama" => "bi bi-diagram-3-fill",
+                        "RolTanımları" => "bi bi-key",
+                        "KullanıcıRolleri" => "bi bi-person-check-fill",
+                        "Home" => "bi bi-house",
+                        "Account" => "bi bi-person-circle",
+
+                        "AraçKayıt" => "bi bi-car-front-fill",
+                        "Cezalar" => "bi bi-x-circle-fill",
+                        "CezaYönetmelik" => "bi bi-file-text-fill",
+                        "Denetimler" => "bi bi-pencil-square",
+                        "Raporlar" => "bi bi-bar-chart-line-fill",
+                        "Güzergahlar" => "bi bi-sign-turn-slight-right-fill",
+
+                        "Profile" => "bi bi-person",
+                        _ => "bi bi-folder" // Varsayılan ikon
+                    };
+    
+                    <li>
+                        <a class="nav-link collapsed" data-bs-target="#@(folderGroup.Key)-@(controllerGroup.Key)-nav" data-bs-toggle="collapse" href="#">
+                            <i class="@controllerIconClass"></i>
+                            <span>@controllerGroup.Key</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="@(folderGroup.Key)-@(controllerGroup.Key)-nav" class="nav-content collapse" data-bs-parent="#@(folderGroup.Key)-nav">
+                            @foreach (var action in controllerGroup.Value)
+                            {
+                                // Action'lar için ikon seçimi
+                                var actionIconClass = action.DisplayAction switch
+                                {
+                                    "Index" => "bi bi-list-ul", // Index için liste ikonu
+                                    "Create" => "bi bi-plus-square", // Create için artı ikonu
+                                    "Edit" => "bi bi-pencil-square", // Edit için kalem ikonu
+                                    "Delete" => "bi bi-trash", // Delete için çöp kutusu ikonu
+                                    _ => "bi bi-chevron-right" // Diğer actionlar için varsayılan sağa ok ikonu
+                                };
+    
+                                <li style="padding-left: 20px;">
+                                    <a asp-controller="@action.OriginalController" asp-action="@action.OriginalAction" class="action-link">
+                                        <i class="@actionIconClass"></i><span>@action.DisplayAction</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Tüm controller linklerini seçiyoruz
+    var controllerLinks = document.querySelectorAll('.nav-link.collapsed');
+
+    controllerLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            // Tüm controller linklerinden aktif sınıfını ve stilini sıfırla
+            controllerLinks.forEach(function(l) {
+                l.classList.remove('active');
+                l.style.backgroundColor = ''; // Arka plan rengini sıfırla
+                var icon = l.querySelector('i');
+                var chevron = l.querySelector('.bi-chevron-down, .bi-chevron-right');
+                if (icon) {
+                    icon.style.backgroundColor = ''; // İkonun arka plan rengini sıfırla
+                }
+                if (chevron) {
+                    chevron.style.backgroundColor = ''; // Okun arka plan rengini sıfırla
+                }
+            });
+
+            // Tıklanan controller linkine aktif sınıfını ekle ve arka plan rengini ayarla
+            link.classList.add('active');
+            link.style.backgroundColor = 'gray'; // Arka plan rengini yeşil yap
+
+            // Tıklanan controller linkinin ikonunun arka planını yeşil yap
+            var icon = link.querySelector('i');
+            if (icon) {
+                icon.style.backgroundColor = 'gray'; // İkonun arka plan rengini yeşil yap
+                icon.style.padding = '3px'; // İkonun etrafına biraz boşluk ekle
+                icon.style.borderRadius = '3px'; // İkona yuvarlak kenarlar ekle
+            }
+
+            // Tıklanan controller linkinin sağdaki ok simgesinin arka planını yeşil yap
+            var chevron = link.querySelector('.bi-chevron-down, .bi-chevron-right');
+            if (chevron) {
+                chevron.style.backgroundColor = 'gray'; // Okun arka plan rengini yeşil yap
+                chevron.style.padding = '3px'; // Okun etrafına biraz boşluk ekle
+                chevron.style.borderRadius = '3px'; // Okun köşelerini yuvarla
+                chevron.style.marginLeft = 'auto'; // Oku sağa hizala
+            }
+        });
+    });
+});
+
+
+
+    </script>

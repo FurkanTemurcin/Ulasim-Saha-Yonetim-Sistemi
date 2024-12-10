@@ -1,0 +1,179 @@
+@model IEnumerable<dynamic>
+<head>
+    <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+</head>
+<style>
+
+
+    .card {
+        max-width: 80% !important; /* Kartın tam genişliğini koru */
+        min-width: 95% !important; /* Kartın minimum genişliğini belirle */
+        margin: auto !important;
+        transition: none !important;
+    }
+
+    /* Genel modal arka planı */
+    #createAracModal .modal-dialog {
+        max-width: 60%; /* Modal genişliği */
+        margin: auto;
+    }
+
+    #createAracModal .modal-content {
+        border-radius: 10px; /* Köşeleri yuvarlatma */
+        border: 2px solid #007bff; /* Kenarlık rengi */
+        background-color: #f8f9fa; /* İçerik arka plan rengi */
+        padding: 20px; /* İçerik için boşluk */
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
+    }
+
+    /* Modal başlığı */
+    #createAracModal .modal-header {
+        border-bottom: 1px solid #dee2e6;
+        background-color: #007bff; /* Başlık arka plan rengi */
+        color: #ffffff; /* Başlık metin rengi */
+        padding: 15px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    /* Modal kapatma butonu */
+    #createAracModal .btn-close {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+    }
+
+    /* Modal içindeki içerik */
+    #createAracModal .modal-body {
+        padding: 20px;
+    }
+
+    /* Modal alt kısmı */
+    #createAracModal .modal-footer {
+        border-top: 1px solid #dee2e6;
+        padding: 15px;
+        text-align: right;
+    }
+
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+    #createAracModal .modal-content {
+    
+    margin-top: 150px;}
+</style>
+<div class="card">
+
+    <div class="card-body">
+
+        <h2 class="card-title custom-title">Araç Plaka Listesi</h2>
+        <div class="table-responsive">
+
+            <table id="example" class="dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Plaka Numarası</th>
+                        <th>Marka</th>
+                        <th>Vize Tarihi</th>
+                        <th>Koltuk Kapasitesi</th>
+                        <th>Model</th>
+                        <th>Motor Numarası</th>
+                        <th>Şasi Numarası</th>
+                        <th>Plaka Türü</th> <!-- LookupLists'ten gelen Plaka Türü adı -->
+                        <th>Güzergah</th> <!-- Guzergahlar tablosundan gelen güzergah adı -->
+                        <!-- <th>İşlemler</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var aracPlaka in Model)
+                    {
+                        <tr>
+                            <td>@aracPlaka.Id</td>
+                            <td>@aracPlaka.PlakaNumarasi</td>
+                            <td>@aracPlaka.Marka</td>
+                            <td>@aracPlaka.VizeTarihi?.ToShortDateString()</td>
+                            <td>@aracPlaka.KoltukKapasitesi</td>
+                            <td>@aracPlaka.Model</td>
+                            <td>@aracPlaka.MotorNumarasi</td>
+                            <td>@aracPlaka.SasiNumarasi</td>
+                            <td>@aracPlaka.PlakaTuru</td> <!-- Plaka Türü -->
+                            <td>@aracPlaka.Guzergah</td> <!-- Güzergah -->
+                            <!-- <td>
+
+                                <form asp-action="Delete" method="post">
+                                    <input type="hidden" name="id" value="@aracPlaka.Id" />
+                                    <button type="submit" class="btn btn-danger btn-icon">
+                                        <img src="~/images/delete.png" alt="Delete" class="icon-image" />
+                                    </button>
+                                </form>
+
+                            </td> -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a class="btn btn-success" id="createAracBtn" style="margin-left: 10px;">Yeni Araç Ekle</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Yapısı -->
+<div class="modal fade" id="createAracModal" tabindex="-1" aria-labelledby="createAracModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="createAracModalContent">
+        </div>
+    </div>
+</div>
+
+
+<!-- <a href="@Url.Action("Create", "AracKayit")" class="btn btn-primary">Yeni Araç Ekle</a> -->
+
+<script>
+
+    $(document).ready(function () {
+        $('#createAracBtn').on('click', function () {
+            // Modal içeriğini yüklemeden önce temizle
+            $('#createAracModalContent').html('');
+
+            // Partial view'i modal içine yükle
+            $.get('@Url.Action("Create", "AracKayit")', function (data) {
+                $('#createAracModalContent').html(data);
+
+                var myModal = new bootstrap.Modal(document.getElementById('createAracModal'), {
+                    keyboard: false
+                });
+                myModal.show();
+
+                // Modal açıldığında `overflow-y` veya `padding-right` özelliklerini değiştirmiyoruz
+            });
+        });
+
+
+        // Formu AJAX ile gönderme işlemi
+        $(document).on('submit', '#createAracForm', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "AracKayit")',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#createAracModal').modal('hide');
+                        location.reload(); // Sayfayı yenileyin veya tabloyu güncelleyin
+                    } else {
+                        alert("Kaydetme sırasında bir hata oluştu.");
+                    }
+                },
+                error: function () {
+                    alert("Bir hata oluştu.");
+                }
+            });
+        });
+    });
+</script>
+
+
+<script src="/js/datatable-config.js" defer></script>

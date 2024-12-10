@@ -1,0 +1,172 @@
+﻿*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+i {
+    font-style: italic;
+}
+
+/* Renk ve Stil Ayarları */
+.bg-info, .bg-info > a {
+    color: #fff !important;
+}
+
+.bg-info {
+    background-color: #17a2b8 !important;
+}
+
+.bg-success, .bg-success > a,
+.bg-warning, .bg-warning > a,
+.bg-danger, .bg-danger > a {
+    color: #fff !important; /* 2. ve 3. kartların yazı rengini beyaz yap */
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+/* Small Box Stil Ayarları */
+.small-box {
+    border-radius: .25rem;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+    .small-box > .inner {
+        padding: 10px;
+    }
+
+    .small-box .icon {
+        color: rgba(0, 0, 0, .15);
+        z-index: 0;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        transition: all .3s linear;
+    }
+
+        .small-box .icon > i {
+            font-size: 90px;
+            transition: transform 0.3s ease;
+            color: rgba(255, 255, 255, 0.5); /* İkonları görünür hale getirmek için beyaz renk */
+        }
+
+            .small-box .icon > i.fa,
+            .small-box .icon > i.fab,
+            .small-box .icon > i.far,
+            .small-box .icon > i.fas,
+            .small-box .icon > i.glyphicon,
+            .small-box .icon > i.ion {
+                font-size: 70px;
+                top: 20px;
+            }
+
+    .small-box:hover .icon > i {
+        transform: scale(1.2); /* İkonları %20 oranında büyüt */
+    }
+
+    .small-box > .small-box-footer {
+        background: rgba(0, 0, 0, .1);
+        color: rgba(255, 255, 255, .8);
+        display: block;
+        padding: 3px 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        z-index: 10;
+    }
+
+.fa, .far, .fas {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.fa, .fab, .fad, .fal, .far, .fas {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.ion, .ionicons {
+    display: inline-block;
+    font-family: "Ionicons";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Specific Icon Stil Ayarları */
+.fa-arrow-circle-right:before {
+    content: "\f0a9";
+}
+
+.ion-stats-bars:before {
+    content: "\f2b5";
+}
+
+
+.breadcrumb {
+    padding: 0; /* Tüm padding'i sıfırlar */
+    margin: 0; /* İsterseniz margin'i de sıfırlayabilirsiniz */
+}
+
+.breadcrumb-item {
+    padding: 0; /* Her bir breadcrumb öğesinin padding'ini sıfırlar */
+}
+
+.custom-title {
+    font-size: 2.5rem; /* İstediğiniz boyutu buraya yazın */
+    font-weight: bold; /* Kalınlık eklemek için */
+    padding: 20px;
+}
+.chart-card {
+    margin-top: 20px; /* Üstten 20px boşluk bırak */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Card boyutunu esnet */
+}
+
+.card-body {
+    flex-grow: 1; /* Card gövdesinin esnemesini sağla */
+}
+
+#pieChart, #lineChart {
+    height: 400px; /* Grafiğin yüksekliği */
+}
+#bar-chart {
+    width: 100%;
+    height: 500px; /* Grafiğin yüksekliği */
+}
+
+.bar-chart-card {
+    margin-top: 50px; /* Üstten 20px boşluk ekle */
+}
+#aracDenetimChart {
+    width: 100%;
+    height: 500px; /* Grafiğin yüksekliği */
+}
+#cezaSayilariChartAm {
+    width: 100%;
+    height: 500px; /* Grafiğin yüksekliği */
+}

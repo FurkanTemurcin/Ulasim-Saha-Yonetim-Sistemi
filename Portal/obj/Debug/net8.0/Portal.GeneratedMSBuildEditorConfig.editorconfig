@@ -1,0 +1,211 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Portal
+build_property.RootNamespace = Portal
+build_property.ProjectDir = C:\Users\FURKAN\OneDrive\Masaüstü\u17\u16\Ulasim\Admin\Portal\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = C:\Users\FURKAN\OneDrive\Masaüstü\u17\u16\Ulasim\Admin\Portal
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/BirimAtama/Assign.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQmlyaW1BdGFtYVxBc3NpZ24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/KullaniciYonetimi/AddUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS3VsbGFuaWNpWW9uZXRpbWlcQWRkVXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/KullaniciYonetimi/DeleteUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS3VsbGFuaWNpWW9uZXRpbWlcRGVsZXRlVXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/KullaniciYonetimi/EditUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS3VsbGFuaWNpWW9uZXRpbWlcRWRpdFVzZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/KullaniciYonetimi/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS3VsbGFuaWNpWW9uZXRpbWlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/KullaniciYonetimi/ListUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS3VsbGFuaWNpWW9uZXRpbWlcTGlzdFVzZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Profile/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvZmlsZVxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Role/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZVxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Role/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Role/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/Role/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/UserRole/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlclJvbGVcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Admin/UserRole/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlclJvbGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/New/Home2/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3XEhvbWUyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Shared/Components/Menu/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTWVudVxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/AracKayit/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xBcmFjS2F5aXRcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/AracKayit/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xBcmFjS2F5aXRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/AracKayit/_CreateAracPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xBcmFjS2F5aXRcX0NyZWF0ZUFyYWNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetimi/CreateCeza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRpbWlcQ3JlYXRlQ2V6YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetimi/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRpbWlcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetimi/Ihlal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRpbWlcSWhsYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetimi/Ihtar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRpbWlcSWh0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetimi/_CreateCezaPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRpbWlcX0NyZWF0ZUNlemFQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetmelik/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRtZWxpa1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetmelik/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRtZWxpa1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetmelik/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRtZWxpa1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/CezaYonetmelik/_CreateCezaYonetmelikPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xDZXphWW9uZXRtZWxpa1xfQ3JlYXRlQ2V6YVlvbmV0bWVsaWtQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Denetim/DenetimOlustur.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xEZW5ldGltXERlbmV0aW1PbHVzdHVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Denetim/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xEZW5ldGltXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Denetim/_DenetimOlusturPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xEZW5ldGltXF9EZW5ldGltT2x1c3R1clBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Guzergah/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xHdXplcmdhaFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Guzergah/CreateZamanCizelge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xHdXplcmdhaFxDcmVhdGVaYW1hbkNpemVsZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Guzergah/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xHdXplcmdhaFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Guzergah/Index2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xHdXplcmdhaFxJbmRleDIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Guzergah/_CreateGuzergahPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xHdXplcmdhaFxfQ3JlYXRlR3V6ZXJnYWhQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/USYS/Rapor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVVNZU1xSYXBvclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FURKAN/OneDrive/Masaüstü/u17/u16/Ulasim/Admin/Portal/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-6j9lit53ef

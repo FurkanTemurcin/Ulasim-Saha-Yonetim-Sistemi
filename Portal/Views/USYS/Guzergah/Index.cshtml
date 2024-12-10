@@ -1,0 +1,120 @@
+@model IEnumerable<Portal.ViewModels.USYS.GuzergahViewModel>
+
+<head>
+    <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+</head>
+<style>
+    .card {
+        max-width: 100% !important; /* Kartın tam genişliğini koru */
+        min-width: 95% !important; /* Kartın minimum genişliğini belirle */
+        margin: auto !important;
+        transition: none !important; /* Genişlik değişikliği animasyonunu devre dışı bırak */
+    }
+
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+    #guzergahModal .modal-dialog {
+    margin-top: 150px;
+}
+
+</style>
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h2 class="card-title custom-title">Güzergah Listesi</h2>
+
+        <table id="example" class="dataTable" style="width:100%">
+
+            <thead>
+                <tr>
+                    <th>Guzergah Id</th>
+                    <th>Güzergah Adı</th>
+                    <th>İlçe Adı</th>
+                    <th>Ücret</th>
+                    <th>Zaman Çizelgesi</th>
+                    <th>Mesafe</th>
+                    <th>Çalıştığı Gün</th>
+                    <th>Kalkış Yeri</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+
+                        <td>@item.Ad</td>
+                        <td>@item.IlceAdi</td>
+                        <td>@item.Ucret</td>
+                        <td>@item.ZamanCizelgesi</td>
+                        <td>@item.Mesafe</td>
+                        <td>@item.GunAdi</td> <!-- Çalıştığı gün adı -->
+                        <td>@item.YerAdi</td> <!-- Kalkış yeri adı -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a class="btn btn-success mt-3" id="guzergahEkleBtn" style="margin-left: 10px;" >Güzergah Ekle</a>
+        <a class="btn btn-success mt-3" asp-controller="Guzergah" asp-action="CreateZamanCizelge" style="margin-left: 5px;">Zaman Çizelgesi Ekle</a>
+
+
+
+    </div>
+</div>
+
+
+<!-- Modal Yapısı -->
+<div class="modal fade" id="guzergahModal" tabindex="-1" aria-labelledby="guzergahModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="guzergahModalLabel">Yeni Güzergah Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="guzergahModalContent">
+                <!-- Modal içeriği AJAX ile yüklenecek -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/datatable-config.js" defer></script>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // Güzergah Ekle butonuna tıklanınca modal aç
+            $('#guzergahEkleBtn').on('click', function () {
+                // Modal içeriğini temizleyin
+                $('#guzergahModalContent').html('');
+
+                // Partial view'i modal içine yükle
+                $.get('@Url.Action("Create", "Guzergah")', function (data) {
+                    $('#guzergahModalContent').html(data);
+
+                    // Modal'ı aç
+                    var myModal = new bootstrap.Modal(document.getElementById('guzergahModal'), {
+                        keyboard: false
+                    });
+                    myModal.show();
+
+                    // Modal açıldığında overflow-y özelliğini kaldır
+                    $('body').css('overflow-y', 'hidden');
+                });
+            });
+
+            // Modal kapandığında overflow-y özelliğini geri getir ve içerik sıfırla
+            $('#guzergahModal').on('hidden.bs.modal', function () {
+                $('body').css('overflow-y', 'auto');
+                $('#guzergahModalContent').html('');
+            });
+        });
+    </script>
+}

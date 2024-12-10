@@ -1,0 +1,37 @@
+@model IEnumerable<Portal.ViewModels.USYS.CreateZamanCizelgeViewModel>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+<h2 class="card-title custom-title">Zaman Çizelgeleri Listesi</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Güzergah Id</th>
+            <th>Yer Türü</th>
+            <th>Gün</th>
+            <th>Başlangıç Saati</th>
+            <th>Bitiş Saati</th>
+            <th>Mesafe</th>
+            <th>Oluşturan Kullanıcı</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.GuzergahId</td>
+                <td>@item.YerTuruName</td> <!-- Yer Türü ismi -->
+                <td>@item.GunName</td> <!-- Gün ismi -->
+                <td>@item.BaslangicSaati</td>
+                <td>@item.BitisSaati</td>
+                <td>@item.Mesafe</td>
+                <td>@item.OlusturanKullaniciId</td>
+            </tr>
+        }
+    </tbody>
+</table>

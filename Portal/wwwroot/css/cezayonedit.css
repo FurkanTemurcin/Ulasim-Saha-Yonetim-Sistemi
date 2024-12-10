@@ -1,0 +1,238 @@
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #ff8800;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Dikeyde ortalama */
+    justify-content: center; /* Yatayda ortalama */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    transition: background-color 0.3s ease; /* Hover efekt geçişi */
+    height: auto; /* Yüksekliği içeriğe göre ayarla */
+}
+
+.card-header:hover {
+    background-color: #e67e22; /* Hoverda daha koyu bir ton */
+}
+
+.card-header h3 {
+    font-size: 16px; /* Yazı boyutunu belirginleştir */
+    margin: 0;
+    text-transform: uppercase; /* Büyük harfler */
+    letter-spacing: 0.5px; /* Harfler arası boşluk */
+    font-weight: bold;
+
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+
+/* Açılır kapanır içerik */
+.collapsible-content {
+    display: none; /* Başlangıçta gizli */
+}
+
+.collapsible-content.active {
+    display: block; /* Açıldığında görünür */
+}
+
+.table-striped thead th {
+    background-color: #bb2727;
+    color: white;
+    font-weight: bold;
+}
+.tutanak-gecmisi {
+    font-size: 15px;
+    font-weight: bold;
+    color: #555; /* Daha sade ve nötr bir renk */
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8; /* Hafif gri arka plan */
+    border-radius: 6px; /* Hafif yuvarlatma */
+    margin: 20px auto;
+    width: fit-content;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Daha hafif bir gölge */
+}
+
+/* Tabloda yalnızca ikinci satırın arka plan rengini gri yapar */
+.table-striped tbody tr:nth-child(2) {
+    background-color: #f0f0f0; /* Gri arka plan */
+}
+
+
+
+/* Tablo başlık stilini düzenler */
+.table thead th {
+    background-color: #ff8800; /* Başlık arka plan rengi */
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px;
+    border-bottom: 2px solid #dddddd;
+}
+
+/* Tablo hücre stilini düzenler */
+.table tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Alternatif satır renkleri */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Satır üzerine gelince arka plan rengi */
+.table-striped tbody tr:hover {
+    background-color: #ffe5d4;
+}
+
+/* Fotoğraf ve video için çerçeve */
+.table img, .table video {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 3px;
+    max-width: 100%; /* Mobil cihazlarda uyumlu görünmesi için */
+    transition: transform 0.2s ease; /* Hover efekt geçişi */
+    width: 70px;
+    height: 70px;
+}
+
+/* Fotoğraf ve video hover efekti */
+.table img:hover, .table video:hover {
+    transform: scale(1.05); /* Hover sırasında hafif büyütme efekti */
+    border-color: #ff8800; /* Çerçeve rengini hover'da değiştir */
+}
+
+/* Profil resmini yuvarlak ve çerçeveli yapar */
+.rounded-circle {
+    border: 2px solid #ddd;
+    padding: 2px;
+    width: 50px;
+    height: 50px;
+    transition: border-color 0.2s;
+}
+
+.rounded-circle:hover {
+    border-color: #ff8800; /* Profil resmi üzerinde hover rengi */
+}
+
+/* "Kayıt bulunamadı" için stil */
+.table tbody tr td[colspan="7"] {
+    text-align: center;
+    color: white !important;
+    font-weight: bold;
+    padding: 20px;
+}
+
+/* Tablo genişliği ve konum ayarları */
+.card-body .table {
+    width: 70%; /* Tablonun genişliğini daha da daralt */
+    margin: 0 auto; /* Ortalar */
+    border-collapse: collapse; /* Çerçeve için hücre kenar boşluklarını kaldırır */
+    background-color: #ffffff; /* Tüm tablonun arka planı beyaz */
+}
+
+/* Tablo genişliği ve konum ayarları */
+.card-body .table {
+    width: 70% !important; /* Tablonun genişliğini daralt */
+    margin: 0 auto !important; /* Ortalar */
+    border-collapse: collapse !important; /* Çerçeve için hücre kenar boşluklarını kaldırır */
+    background-color: #ffffff !important; /* Tüm tablonun arka planı beyaz */
+}
+
+/* Tablo başlık stilini gri yap */
+.table-striped thead th {
+    background-color: #e0e0e0 !important; /* Başlık hücre arka planı gri */
+    color: #333 !important; /* Başlık metin rengi koyu gri */
+    font-weight: bold !important;
+    text-align: center !important;
+    padding: 10px !important;
+    border: 1px solid #ddd !important; /* Başlık hücre kenarlığı */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 150px !important;
+}
+
+/* Tablo hücreleri beyaz arka plan ve kenarlık */
+.table-striped tbody td {
+    background-color: #ffffff !important; /* Hücre arka plan rengi beyaz */
+    padding: 8px !important;
+    text-align: center !important;
+    border: 1px solid #ddd !important; /* Hücre kenarlığı */
+    white-space: nowrap !important; /* Satır taşmasını önler */
+    overflow: hidden !important; /* Taşan metni gizler */
+    text-overflow: ellipsis !important; /* Taşan metin için üç nokta ekler */
+    max-width: 150px !important; /* Maksimum genişlik belirler */
+}
+
+/* Alternatif satır renklendirme */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9 !important; /* Alternatif satır arka plan rengi */
+}
+
+/* Tablo başlık stilini kırmızı yap */
+.table-striped thead th {
+    background-color: #ff8800 !important; /* Başlık hücre arka planı kırmızı */
+    color: #ffffff !important; /* Başlık metin rengi beyaz */
+    font-weight: bold !important;
+    text-align: center !important;
+    padding: 10px !important;
+    border: 1px solid #ddd !important; /* Başlık hücre kenarlığı */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 150px !important;
+}
+
+.table {
+    --bs-table-striped-bg: rgba(255, 255, 255, 1) !important; /* Şeritli arka plan rengini beyaz yap */
+}
+
+/* .ozl sınıfını hedefleyerek kırık gri arka plan ve koyu gri yazı rengi uygula */
+.ozl th {
+    background-color: #d3d3d3 !important; /* Kırık gri arka plan rengi */
+    color: #333333 !important; /* Koyu gri metin rengi */
+    font-weight: bold; /* Kalın yazı */
+    text-align: center; /* Ortalanmış metin */
+    padding: 10px; /* Başlık hücre boşlukları */
+    border: 1px solid #ccc; /* Başlık hücre kenarlığı */
+}

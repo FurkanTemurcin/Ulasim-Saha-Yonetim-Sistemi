@@ -1,0 +1,507 @@
+@model Portal.ViewModels.USYS.CreateCezaViewModel
+
+<head>
+    <!-- CSS Dosyaları -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Daha Küçük Buton Stili -->
+    <style>
+        .btn-danger {
+            padding: 2px 6px;
+            font-size: 12px;
+            line-height: 1;
+            border-radius: 3px;
+            height: 34px;
+        }
+
+        .form-group {
+            width: 100%; /* Form gruplarını tam genişlik yapar */
+        }
+
+        .form-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .form-field label {
+                margin-bottom: 5px;
+            }
+
+            .form-field input {
+                width: 100%;
+            }
+
+        .ms-3 {
+            margin-left: 15px; /* İki form elemanı arasında boşluk bırakır */
+        }
+
+        .konum-button {
+            width: 40px; /* Kare şekli için genişlik */
+            height: 40px; /* Kare şekli için yükseklik */
+            background-color: #007bff; /* Buton rengi */
+            color: #fff; /* Yazı rengi */
+            border: none; /* Kenarlık kaldır */
+            border-radius: 4px; /* Hafif yuvarlak kenarlar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px; /* Yazı boyutu */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Hover geçişi */
+        }
+
+            .konum-button:hover {
+                background-color: #0056b3; /* Hover durumunda daha koyu mavi */
+            }
+
+        .custom-title {
+            font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+            font-weight: bold; /* Kalınlık eklemek için */
+            padding: 20px;
+        }
+
+
+        .is-invalid {
+            border: 2px solid red;
+        }
+
+
+        .info-section {
+        margin-bottom: 20px;
+    }
+
+    .info-section p {
+        font-size: 1rem;
+        color: #555; /* Metin rengi */
+    }
+
+    .info-section ul {
+        list-style-type: disc;
+        margin-left: 20px;
+    }
+
+    .info-section ul li {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .info-header {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #ff8800; /* Başlıklar için mavi renk */
+    }
+
+
+    .container {
+    display: flex;
+    align-items: flex-start; /* Öğeleri dikeyde hizalar */
+}
+
+.info-section {
+    flex: 0 0 25%; /* Sabit genişlik (ör. %25) */
+    margin-right: 20px; /* Kart ile boşluk */
+    margin-top:25px;
+    margin-left: -10px;
+    background-color: #fff; /* Hafif bir arka plan rengi (isteğe bağlı) */
+    padding: 15px; /* İçerik dolgu */
+    border: 1px solid #ddd; /* Hafif kenarlık */
+    border-radius: 5px; /* Köşeleri yuvarlat */
+    font-size: medium;
+}
+
+.card {
+    flex: 1; /* Kart kalan alanı dolduracak */
+    padding: 20px; /* Kart dolgu */
+    border: 1px solid #ddd; /* Hafif kenarlık */
+    border-radius: 5px; /* Köşeleri yuvarlat */
+    background-color: white; /* Kart arka plan rengi */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    max-width: 100%; /* Taşmayı önler */
+    box-sizing: border-box; /* Padding ve border dahil */
+    overflow: hidden; /* Taşan içerik görünmez */
+}
+
+#plakaSelect {
+    width: 100%; /* Select öğesi tam genişlik alır */
+    max-width: 100%; /* Kart sınırlarını aşmaz */
+    padding: 8px 10px; /* İç dolgu */
+    font-size: 14px; /* Yazı boyutu */
+    border: 1px solid #ccc; /* Kenarlık */
+    border-radius: 5px; /* Yuvarlatılmış kenarlar */
+    box-sizing: border-box; /* Kenarlık ve dolgu dahil */
+}
+
+
+
+
+
+
+    </style>
+
+
+
+</head>
+
+
+
+<div class="container">
+
+    @if (!string.IsNullOrEmpty(Model.Plaka) || (Model.KontrolTurleri != null && Model.KontrolTurleri.Any()))
+    {
+        <div class="info-section">
+            @if (!string.IsNullOrEmpty(Model.Plaka))
+            {
+                <p><strong>@Model.Plaka</strong> Nolu Plaka için</p>
+            }
+
+            @if (Model.KontrolTurleri != null && Model.KontrolTurleri.Any())
+            {
+                <h3 class="info-header">Denetim yapılan maddeler</h3>
+                <ul>
+                    @foreach (var kontrolTuru in Model.KontrolTurleri)
+                    {
+                        <li>@kontrolTuru</li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+    
+
+    <div class="card">
+
+        <h2 class="card-title custom-title">Ceza Oluştur</h2>
+
+        <form id="createCezaForm" method="post" enctype="multipart/form-data" asp-action="CreateCeza" onsubmit="return setCoordinates();">
+            <input type="hidden" name="DenetimId" value="@Model.DenetimId" />
+
+            <!-- Plaka Dropdown -->
+            <div class="form-group">
+                <label for="plaka">Plaka</label>
+                <select id="plakaSelect" name="SelectedPlakaId" class="form-control" required>
+                    <option value="">Plaka Seçin</option>
+                    @foreach (var plaka in Model.Plakalar)
+                    {
+                        <option value="@plaka.Value">@plaka.Text</option>
+                    }
+                </select>
+            </div>
+    
+            
+
+            <!-- Tarih ve Saat Girişi -->
+            <div class="form-group d-flex align-items-center">
+                <div class="me-2 flex-grow-1">
+                    <label for="tarih">Tarih</label>
+                    <input type="date" id="tarih" name="Tarih" class="form-control" asp-for="Tarih" required />
+                </div>
+                <div class="flex-grow-1">
+                    <label for="saat">Saat</label>
+                    <input type="time" id="saat" name="Saat" class="form-control" asp-for="Saat" required />
+                </div>
+            </div>
+
+            <!-- Anahtar Kelime Multiple Seçim -->
+            <div class="form-group">
+                <label for="anahtarKelimeSelect">Anahtar Kelime</label>
+                <select id="anahtarKelimeSelect" name="SelectedAnahtarKelimeler" class="form-control" multiple="multiple" required>
+                    @foreach (var anahtarKelime in Model.AnahtarKelimeler)
+                    {
+                        <option value="@anahtarKelime.Value">@anahtarKelime.Text</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Cezanın Kesildiği Yer ve Harita -->
+            <div class="form-group d-flex flex-column">
+                <label for="locationInput">Cezanın Kesildiği Yer</label>
+                <div class="d-flex align-items-center mt-1">
+                    <input type="text" id="locationInput" name="KesildigiYer" placeholder="Örn: Malatya, Türkiye" class="form-control me-2" required />
+                    <button type="button" class="konum-button" onclick="showLocation()" data-bs-toggle="tooltip" data-bs-placement="top" title="Konumu Göster">
+                        <i class="bi bi-geo-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="map" style="width: 100%; height: 500px; margin-top: 20px;"></div>
+
+            <div class="form-group">
+                <label asp-for="LocationName" class="control-label">Konum Adı</label>
+                <input asp-for="LocationName" class="form-control" required />
+                <span asp-validation-for="LocationName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group d-flex mt-3">
+                <div class="form-field">
+                    <label>(Enlem):</label>
+                    <input type="text" id="latitude" name="latitude" class="form-control" readonly required />
+                </div>
+
+                <div class="form-field ms-3">
+                    <label>(Boylam):</label>
+                    <input type="text" id="longitude" name="longitude" class="form-control" readonly required />
+                </div>
+            </div>
+
+            <!-- Gizli Alan: Birleştirilen Enlem ve Boylam -->
+            <input type="hidden" id="coordinates" name="coordinates" required />
+
+            <!-- Diğer Form Alanları -->
+            <div class="form-group">
+                <label for="tutanakTuru">Tutanak Türü</label>
+                <select id="tutanakTuruSelect" name="SelectedTutanakTuruId" class="form-control" required>
+                    <option value="">Tutanak Türü Seçin</option>
+                    @foreach (var tutanakTuru in Model.TutanakTurleri)
+                    {
+                        <option value="@tutanakTuru.Value">@tutanakTuru.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bitisGunu">İhtar için Bitiş Günü</label>
+                <input type="text" id="bitisGunu" name="BitisGunu" class="form-control" placeholder="İhtar için bitiş günü" />
+            </div>
+
+            <div class="form-group">
+                <label for="delilTurleri">Delil Türü</label>
+                <select id="delilTurleriSelect" name="SelectedDelilTurleri" class="form-control" multiple="multiple" required>
+                    @foreach (var delilTuru in Model.DelilTurleri)
+                    {
+                        <option value="@delilTuru.Value">@delilTuru.Text</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Fotoğraf ve Video Yükleme Alanı -->
+            <div class="form-group">
+                <label for="fotoDosyalar">Fotoğraf Ekle (Toplam: <span id="fotoCount">0</span>)</label>
+                <input type="file" id="fotoDosyalar" name="FotoDosyalar" class="form-control" multiple required />
+                <div id="fotoContainer"></div>
+            </div>
+            <div class="form-group">
+                <label for="videoDosyalar">Video Ekle (Toplam: <span id="videoCount">0</span>)</label>
+                <input type="file" id="videoDosyalar" name="VideoDosyalar" class="form-control" multiple />
+                <div id="videoContainer"></div>
+            </div>
+
+            <!-- Formu Gönderme Butonu -->
+            <button type="submit" class="btn btn-success">Ceza Oluştur</button>
+        </form>
+        <script>
+            document.getElementById('createCezaForm').addEventListener('submit', function (event) {
+                let isValid = true;
+                let errorMessages = [];
+
+                // Gerekli alanların kontrolü
+                const requiredFields = [
+                    { id: 'plakaSelect', name: 'Plaka' },
+                    { id: 'tarih', name: 'Tarih' },
+                    { id: 'saat', name: 'Saat' },
+                    { id: 'anahtarKelimeSelect', name: 'Anahtar Kelime' },
+                    { id: 'locationInput', name: 'Cezanın Kesildiği Yer' },
+                    { id: 'latitude', name: 'Enlem' },
+                    { id: 'longitude', name: 'Boylam' },
+                    { id: 'tutanakTuruSelect', name: 'Tutanak Türü' },
+                    { id: 'delilTurleriSelect', name: 'Delil Türleri' },
+                    { id: 'fotoDosyalar', name: 'Fotoğraf Yükleme' }                   
+                ];
+
+                // Alanları tek tek kontrol et
+                requiredFields.forEach(field => {
+                    const element = document.getElementById(field.id);
+                    if (!element || !element.value.trim()) {
+                        isValid = false;
+                        errorMessages.push(`${field.name} alanı doldurulmalıdır.`);
+                        element?.classList.add('is-invalid'); // Alanı kırmızı kenarlıkla vurgula
+                    } else {
+                        element?.classList.remove('is-invalid'); // Hata yoksa kırmızı kenarlığı kaldır
+                    }
+                });
+
+                // Hataları kullanıcıya göster
+                if (!isValid) {
+                    event.preventDefault(); // Formun gönderilmesini engelle
+                    alert('Lütfen aşağıdaki alanları kontrol edin:\n\n' + errorMessages.join('\n'));
+                }
+            });
+        </script>
+
+    </div>
+</div>
+<!-- Scriptler -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+
+        
+ 
+        // Select2 Ayarları
+        $('#plakaSelect').select2({ placeholder: 'Plaka Seçin', allowClear: true });
+        $('#tutanakTuruSelect').select2({ placeholder: 'Tutanak Türü Seçin', allowClear: true });
+        $('#delilTurleriSelect').select2({ placeholder: 'Delil Türü Seçin', allowClear: true, multiple: true });
+        $('#anahtarKelimeSelect').select2({ placeholder: 'Anahtar Kelime Seçin', allowClear: true, multiple: true });
+
+
+        // Dosya Yükleme ve Silme İşlemleri
+        let fotoFiles = [];
+        let videoFiles = [];
+        updateCount('fotoCount', 0);
+        updateCount('videoCount', 0);
+
+        $('#fotoDosyalar').on('change', function (e) {
+            let files = Array.from(e.target.files);
+            fotoFiles = fotoFiles.concat(files);
+            updateFileDisplay(fotoFiles, 'fotoContainer', 'fotoCount', 'foto');
+        });
+
+        $('#videoDosyalar').on('change', function (e) {
+            let files = Array.from(e.target.files);
+            videoFiles = videoFiles.concat(files);
+            updateFileDisplay(videoFiles, 'videoContainer', 'videoCount', 'video');
+        });
+
+        function updateFileDisplay(files, containerId, countId, type) {
+            $('#' + containerId).empty();
+            updateCount(countId, files.length);
+
+            files.forEach((file, index) => {
+                $('#' + containerId).append('<div id="' + type + '-' + index + '">' +
+                    file.name +
+                    '<button type="button" class="btn btn-danger btn-sm" onclick="removeFile(\'' + index + '\', \'' + type + '\')">Sil</button>' +
+                    '</div>');
+            });
+        }
+
+        window.removeFile = function (index, type) {
+            if (type === 'foto') {
+                fotoFiles.splice(index, 1);
+                updateFileDisplay(fotoFiles, 'fotoContainer', 'fotoCount', 'foto');
+                updateInputFiles('fotoDosyalar', fotoFiles);
+            } else if (type === 'video') {
+                videoFiles.splice(index, 1);
+                updateFileDisplay(videoFiles, 'videoContainer', 'videoCount', 'video');
+                updateInputFiles('videoDosyalar', videoFiles);
+            }
+        };
+
+        function updateCount(countId, count) {
+            $('#' + countId).text(count);
+        }
+
+        function updateInputFiles(inputId, files) {
+            let dataTransfer = new DataTransfer();
+            files.forEach(file => dataTransfer.items.add(file));
+            document.getElementById(inputId).files = dataTransfer.files;
+        }
+
+        
+
+        // AJAX Çağrısı ile Anahtar Kelimeleri Güncelleme
+        $('#plakaSelect').on('change', function () {
+            var plakaId = $(this).val();
+            if (plakaId) {
+                $.ajax({
+                    url: '@Url.Action("CreateCeza", "CezaYonetimi")',
+                    type: 'GET',
+                    data: { plakaNumarasi: plakaId },
+                    success: function (response) {
+                        var dropdown = $('#anahtarKelimeSelect');
+                        dropdown.empty();
+                        if (response.success) {
+                            $.each(response.data, function (index, item) {
+                                dropdown.append(new Option(item.anahtarKelime, item.Id));
+                            });
+                        } else {
+                            dropdown.append(new Option("No results found", ""));
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Hata: " + error);
+                    }
+                });
+            } else {
+                $('#anahtarKelimeSelect').empty().append(new Option("Anahtar Kelime Seçin", ""));
+            }
+        });
+
+        // Haritayı Başlat
+        initializeMap();
+    });
+
+    var map;
+    function initializeMap() {
+        map = L.map('map').setView([38.35519, 38.30946], 12); // Malatya başlangıç konumu
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Tıklama Olayı ile Koordinat Alma
+        map.on('click', function (e) {
+            var latitude = e.latlng.lat;
+            var longitude = e.latlng.lng;
+
+            // HTML formundaki alanlara koordinatları yaz
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            // Seçilen yere bir işaretçi ekle
+            L.marker([latitude, longitude]).addTo(map)
+                .bindPopup("Seçilen koordinatlar: " + latitude + ", " + longitude).openPopup();
+        });
+    }
+
+    function showLocation() {
+        var address = document.getElementById('locationInput').value;
+        var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address);
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var lat = data[0].lat;
+                    var lon = data[0].lon;
+                    var marker = L.marker([lat, lon]).addTo(map);
+                    map.setView([lat, lon], 12); // Arama sonuçlarına göre haritayı yakınlaştır
+                } else {
+                    alert('Konum bulunamadı.');
+                }
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                alert('Bir hata oluştu.');
+            });
+    }
+
+    function setCoordinates() {
+        var latitude = document.getElementById('latitude').value;
+        var longitude = document.getElementById('longitude').value;
+        if (latitude && longitude) {
+            document.getElementById('coordinates').value = latitude + ',' + longitude;
+        }
+        return true;
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Tüm tooltiplere etkinleştir
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

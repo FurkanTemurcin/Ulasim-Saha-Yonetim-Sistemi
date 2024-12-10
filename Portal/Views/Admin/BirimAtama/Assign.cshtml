@@ -1,0 +1,38 @@
+@model Portal.ViewModels.Admin.UserAssignmentViewModel
+
+@{
+    ViewData["Title"] = "Personele Birim Atama";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<div class="container">
+    <div class="card">
+
+<form asp-action="Assign" method="post">
+    <div class="form-group">
+        <label asp-for="SelectedUserId">Kullanıcı Seçiniz</label>
+        <select asp-for="SelectedUserId" class="form-control">
+            <option value="">Kullanıcı Seçiniz</option>
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.Id">@user.FullName</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SelectedSubeId">Şube Seçiniz</label>
+        <select asp-for="SelectedSubeId" class="form-control">
+            <option value="">Şube Seçiniz</option>
+            @foreach (var sube in Model.Subeler)
+            {
+                <option value="@sube.Id">@sube.Ad</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Kaydet</button>
+</form>
+</div></div>

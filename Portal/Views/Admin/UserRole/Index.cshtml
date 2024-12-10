@@ -1,0 +1,61 @@
+
+@model IEnumerable<Portal.ViewModels.Admin.UserRoleViewModel>
+    <head>
+        <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+    </head>
+
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+    }
+    <div class="card">
+        <div class="card-body">
+            <h4>Kullanıcı Rolleri</h4>
+
+
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Ad Soyad</th>
+                        <th>Roller</th>
+                        <th>Hareketler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+            {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>@user.FullName</td>
+                        <td>
+                            <ul>
+                                @foreach (var roleName in user.RoleNames)
+                            {
+                                <li>@roleName</li>
+                            }
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = user.UserId })" class="btn btn-warning btn-icon">
+                                <img src="~/images/edit.png" alt="Edit" class="icon-image" />
+                            </a>
+                            <!-- <a asp-controller="UserRole" asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-primary">Rol Düzenle</a> -->
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/datatable-config.js" defer></script>

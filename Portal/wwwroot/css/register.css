@@ -1,0 +1,78 @@
+body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: stretch;
+}
+
+.left-side {
+    width: 50%;
+    background: #3498db url(https://download.unsplash.com/photo-1429041966141-44d228a42775);
+    background-size: cover;
+    background-position: center;
+}
+
+.right-side {
+    width: 50%;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    width: 80%;
+    max-width: 400px;
+}
+
+.content h2 {
+    color: #e65c00;
+    font-weight: 300;
+    font-size: 35px;
+}
+
+input, button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    background: #e65c00;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #e65c00;
+}
+.text-danger
+{
+    color: red !important; /* Validation mesajlarını kırmızı yap */
+    font-size: 14px;
+}
+
+/* Tüm form kontrol öğeleri için genişlik ayarı */
+.form-control {
+    width: 100%; /* Genişliği %100 yaparak container'ı tamamen kapla */
+    max-width: 400px; /* Doğum Tarihi input'u ile aynı genişlik */
+    box-sizing: border-box; /* Kenarlık ve padding'in genişliği etkilemesini önle */
+}
+
+/* İsteğe bağlı olarak sadece select öğeleri için */
+select.form-control {
+    width: 100%; /* Genişliği %100 yaparak container'ı tamamen kapla */
+    max-width: 400px; /* Doğum Tarihi input'u ile aynı genişlik */
+    padding: 10px 12px; /* İçerik aralığı */
+}
+
+/* Doğum Tarihi input'u ile aynı görünümü sağlamak için */
+input[type="date"].form-control {
+    width: 100%; /* Genişliği %100 yap */
+    max-width: 400px; /* Maksimum genişlik Doğum Tarihi input'u ile eşit */
+}

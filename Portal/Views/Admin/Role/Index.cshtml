@@ -1,0 +1,57 @@
+@model IEnumerable<Portal.Models.Admin.Role>
+    <head>
+        <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+    </head>
+
+
+
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Roller</h4>
+
+
+            <table id="example" class="display" style="width:100%">
+                <thead style="background-color: #f8f9fa !important;">
+                    <tr>
+                        <th>Rol Id</th>
+                        <th>Rol Adı</th>
+                        <th>Hareketler</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (var role in Model)
+            {
+                    <tr style="background-color: white !important;">
+                        <td>@role.Id</td>
+
+                        <td>@role.Name</td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = role.Id })" class="btn btn-warning btn-icon">
+                                <img src="~/images/edit.png" alt="Edit" class="icon-image" />
+                            </a>
+                            <!-- delete postta form -->
+                            <form action="@Url.Action("Delete", new { id = role.Id })" method="post" style="display:inline;" onsubmit="return confirm('Bu rolü silmek istediğinizden emin misiniz?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-icon">
+                                    <img src="~/images/delete.png" alt="Delete" class="icon-image" />
+                                </button>
+                            </form>
+                            <!-- <a asp-controller="Role" asp-action="Edit" asp-route-id="@role.Id" class="btn btn-primary">Düzenle</a>
+                            <form asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Bu rolü silmek istediğinizden emin misiniz?');">Sil</button>
+                            </form> -->
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+
+            <a asp-controller="Role" asp-action="Create" class="btn btn-success">Yeni Rol Oluştur</a>
+        </div>
+    </div>
+
+    <script src="/js/datatable-config.js" defer></script>

@@ -1,0 +1,71 @@
+@model Portal.ViewModels.USYS.EditCezaYonetmelikViewModel
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <h2 class="card-title custom-title">Ceza Yönetmeliği Düzenle</h2>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label for="Madde">Madde</label>
+                <input asp-for="Madde" class="form-control" />
+                <span asp-validation-for="Madde" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Fikra">Fıkra</label>
+                <input asp-for="Fikra" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="Bent">Bent</label>
+                <input asp-for="Bent" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="Yonetmelik">Yönetmelik</label>
+                <input asp-for="Yonetmelik" class="form-control" />
+                <span asp-validation-for="Yonetmelik" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="CezaPuani">Ceza Puanı</label>
+                <input asp-for="CezaPuani" class="form-control" />
+                <span asp-validation-for="CezaPuani" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="PlakaTuru">Plaka Türü</label>
+                <select asp-for="SelectedPlakaTuruId" class="form-control" asp-items="Model.PlakaTurleri">
+                    <option value="">Plaka Türü Seçin</option>
+                </select>
+                <span asp-validation-for="SelectedPlakaTuruId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="AnahtarKelime">Anahtar Kelime</label>
+                <input asp-for="AnahtarKelime" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-success">Kaydet</button>
+            <a asp-action="Index" class="btn btn-secondary">İptal</a>
+        </form>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

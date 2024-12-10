@@ -1,0 +1,195 @@
+@model Portal.ViewModels.USYS.CreateCezaViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+
+<h2 class="card-title custom-title">Ceza Oluştur</h2>
+
+<form id="createCezaForm" method="post" enctype="multipart/form-data" asp-action="CreateCeza">
+    <input type="hidden" name="DenetimId" value="@Model.DenetimId" />
+
+    <!-- Plaka Dropdown -->
+    <!-- Plaka Dropdown -->
+    <div class="form-group">
+        <label for="plaka">Plaka</label>
+        <select id="plakaSelect" name="SelectedPlakaId" class="form-control">
+            <option value="">Plaka Seçin</option>
+            @foreach (var plaka in Model.Plakalar)
+            {
+                <option value="@plaka.Value">@plaka.Text</option>
+            }
+        </select>
+    </div>
+
+
+
+    <!-- Tarih Girişi -->
+    <div class="form-group">
+        <label for="tarih">Tarih</label>
+        <input type="date" id="tarih" name="Tarih" class="form-control" asp-for="Tarih" required />
+    </div>
+
+    <div class="form-group">
+        <label for="saat">Saat</label>
+        <input type="time" id="saat" name="Saat" class="form-control" asp-for="Saat" required />
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="anahtarKelimeSelect">Anahtar Kelime</label>
+        <select id="anahtarKelimeSelect" name="SelectedAnahtarKelimeler" class="form-control" multiple="multiple">
+            @foreach (var anahtarKelime in Model.AnahtarKelimeler)
+            {
+                <option value="@anahtarKelime.Value">@anahtarKelime.Text</option>
+            }
+        </select>
+    </div>
+
+    <!-- Cezanın Kesildiği Yer -->
+    <div class="form-group">
+        <label for="kesildigiYer">Cezanın Kesildiği Yer</label>
+        <input type="text" id="kesildigiYer" name="KesildigiYer" class="form-control" />
+    </div>
+
+    <!-- Tutanak Türü Dropdown -->
+    <div class="form-group">
+        <label for="tutanakTuru">Tutanak Türü</label>
+        <select id="tutanakTuruSelect" name="SelectedTutanakTuruId" class="form-control">
+            <option value="">Tutanak Türü Seçin</option>
+            @foreach (var tutanakTuru in Model.TutanakTurleri)
+            {
+                <option value="@tutanakTuru.Value">@tutanakTuru.Text</option>
+            }
+        </select>
+    </div>
+
+
+    <!-- İhtar için Bitiş Günü Alanı -->
+    <div class="form-group">
+        <label for="bitisGunu">İhtar için Bitiş Günü</label>
+        <input type="text" id="bitisGunu" name="BitisGunu" class="form-control" placeholder="İhtar için bitiş günü" />
+    </div>
+
+
+    <!-- Delil Türü Multiple Seçim -->
+    <div class="form-group">
+        <label for="delilTurleri">Delil Türü</label>
+        <select id="delilTurleriSelect" name="SelectedDelilTurleri" class="form-control" multiple="multiple">
+            @foreach (var delilTuru in Model.DelilTurleri)
+            {
+                <option value="@delilTuru.Value">@delilTuru.Text</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="fotoDosyalar">Fotoğraf Ekle</label>
+        <input type="file" id="fotoDosyalar" name="FotoDosyalar" class="form-control" multiple />
+        <div id="fotoContainer"></div>
+    </div>
+
+    <!-- Video Yükleme Alanı -->
+    <div class="form-group">
+        <label for="videoDosyalar">Video Ekle</label>
+        <input type="file" id="videoDosyalar" name="VideoDosyalar" class="form-control" multiple />
+        <div id="videoContainer"></div>
+    </div>
+
+    <!-- Formu gönderme butonu -->
+    <button type="submit" class="btn btn-success">Ceza Oluştur</button>
+</form>
+
+
+<script>
+    $(document).ready(function () {
+        // Select2 başlatma
+        $('#plakaSelect').select2({
+            placeholder: 'Plaka Seçin',
+            allowClear: true,
+            width: '100%'  // Genişlik ayarı
+        });
+
+        $('#tutanakTuruSelect').select2({
+            placeholder: 'Tutanak Türü Seçin',
+            allowClear: true,
+            width: '100%'
+        });
+
+        $('#delilTurleriSelect').select2({
+            placeholder: 'Delil Türü Seçin',
+            allowClear: true,
+            multiple: true,
+            width: '100%'
+        });
+
+        $('#anahtarKelimeSelect').select2({
+            placeholder: 'Anahtar Kelime Seçin',
+            allowClear: true,
+            multiple: true,
+            width: '100%'
+        });
+
+        // Dosya yükleme işlemleri
+        $('#fotoDosyalar').on('change', function (e) {
+            let files = e.target.files;
+            $('#fotoContainer').empty();
+            for (let i = 0; i < files.length; i++) {
+                let fileName = files[i].name;
+                $('#fotoContainer').append('<div>' + fileName + '<button type="button" class="btn btn-danger btn-sm" onclick="removeFile(this)">Sil</button></div>');
+            }
+        });
+
+        $('#videoDosyalar').on('change', function (e) {
+            let files = e.target.files;
+            $('#videoContainer').empty();
+            for (let i = 0; i < files.length; i++) {
+                let fileName = files[i].name;
+                $('#videoContainer').append('<div>' + fileName + '<button type="button" class="btn btn-danger btn-sm" onclick="removeFile(this)">Sil</button></div>');
+            }
+        });
+
+        // Plaka seçildiğinde Ajax çağrısı
+        $('#plakaSelect').on('change', function () {
+            var plakaId = $(this).val();
+            if (plakaId) {
+                $.ajax({
+                    url: '@Url.Action("CreateCeza", "CezaYonetimi")',
+                    type: 'GET',
+                    data: { plakaNumarasi: plakaId },
+                    success: function (response) {
+                        var dropdown = $('#anahtarKelimeSelect');
+                        dropdown.empty();
+                        if (response.success) {
+                            $.each(response.data, function (index, item) {
+                                dropdown.append(new Option(item.anahtarKelime, item.Id));
+                            });
+                        } else {
+                            dropdown.append(new Option("No results found", ""));
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Hata: " + error);
+                    }
+                });
+            } else {
+                $('#anahtarKelimeSelect').empty().append(new Option("Anahtar Kelime Seçin", ""));
+            }
+        });
+    });
+
+
+</script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

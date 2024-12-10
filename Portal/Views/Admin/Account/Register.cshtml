@@ -1,0 +1,98 @@
+@model Portal.ViewModels.Admin.RegisterViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Register";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/register.css" />
+
+</head>
+
+<div class="left-side"></div>
+
+<div class="right-side">
+    <div class="content">
+        <h2>Hesap Oluştur</h2>
+        <form class="row g-3 needs-validation" asp-action="Register" method="post" novalidate>
+            <div class="col-12">
+                <label asp-for="FullName" class="form-label">Ad Soyad</label>
+                <input asp-for="FullName" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.FullName)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="TcKimlik" class="form-label">TC Kimlik</label>
+                <input asp-for="TcKimlik" type="text" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.TcKimlik)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Email)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Phone" class="form-label">Telefon</label>
+                <input asp-for="Phone" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Phone)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="BirthDate" class="form-label">Doğum Tarihi</label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.BirthDate)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Cinsiyet" class="form-label">Cinsiyet</label>
+                <select asp-for="Cinsiyet" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="Erkek">Erkek</option>
+                    <option value="Kadın">Kadın</option>
+                    <option value="Diğer">Diğer</option>
+                </select>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Cinsiyet)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="OgrenimDurumu" class="form-label">Öğrenim Durumu</label>
+                <select asp-for="OgrenimDurumu" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="Ilkokul">İlkokul</option>
+                    <option value="Ortaokul">Ortaokul</option>
+                    <option value="Lise">Lise</option>
+                    <option value="Üniversite">Üniversite</option>
+                    <option value="Yüksek Lisans">Yüksek Lisans</option>
+                    <option value="Doktora">Doktora</option>
+                </select>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.OgrenimDurumu)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Password)</span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="ConfirmPassword" class="form-label">Şifre Tekrar</label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.ConfirmPassword)</span>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary w-100 btn-orange" type="submit">Hesap Oluştur</button>
+            </div>
+
+            <div class="col-12">
+                <p class="small mb-0">Hesabınız var mı? 
+                    <a asp-action="Login" class="link-orange">Giriş</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>

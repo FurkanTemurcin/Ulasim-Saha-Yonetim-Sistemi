@@ -1,0 +1,78 @@
+@model Portal.ViewModels.USYS.CreateZamanCizelgeViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<style>
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <h class="card-title custom-title">Zaman Çizelgesi Ekle</h>
+
+        <form asp-action="CreateZamanCizelge" method="post">
+            <!-- Güzergah Dropdown -->
+            <div class="form-group">
+                <label for="GuzergahId">Güzergah</label>
+                <select asp-for="GuzergahId" class="form-control" asp-items="ViewBag.GuzergahList" required>
+                    <option value="">Güzergah Seçin</option>
+                </select>
+                <span asp-validation-for="GuzergahId" class="text-danger"></span>
+            </div>
+
+            <!-- Yer Türü Dropdown -->
+            <div class="form-group">
+                <label for="YerTuruId">Yer Türü</label>
+                <select asp-for="YerTuruId" class="form-control" asp-items="ViewBag.YerTuruList" required>
+                    <option value="">Yer Türü Seçin</option>
+                </select>
+                <span asp-validation-for="YerTuruId" class="text-danger"></span>
+            </div>
+
+            <!-- Gün Dropdown (Birden fazla seçim yapılabilir) -->
+            <div class="form-group">
+                <label for="GunId">Yer Türü</label>
+                <select asp-for="GunId" class="form-control" asp-items="ViewBag.GunList" required>
+                    <option value="">Gün Seçin</option>
+                </select>
+                <span asp-validation-for="GunId" class="text-danger"></span>
+            </div>
+
+
+            <!-- Başlangıç Saati -->
+            <div class="form-group">
+                <label for="BaslangicSaati">Başlangıç Saati</label>
+                <input type="time" asp-for="BaslangicSaati" class="form-control" required />
+                <span asp-validation-for="BaslangicSaati" class="text-danger"></span>
+            </div>
+
+            <!-- Bitiş Saati -->
+            <div class="form-group">
+                <label for="BitisSaati">Bitiş Saati</label>
+                <input type="time" asp-for="BitisSaati" class="form-control" required />
+                <span asp-validation-for="BitisSaati" class="text-danger"></span>
+            </div>
+
+            <!-- Mesafe -->
+            <div class="form-group">
+                <label for="Mesafe">Mesafe (km)</label>
+                <input type="number" step="0.01" asp-for="Mesafe" class="form-control" required />
+                <span asp-validation-for="Mesafe" class="text-danger"></span>
+            </div>
+
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success" style="margin-top: -5px;">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

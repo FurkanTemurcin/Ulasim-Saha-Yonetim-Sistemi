@@ -1,0 +1,145 @@
+@model IEnumerable<Portal.Models.USYS.CezaYonetmelik>
+
+<head>
+    <link rel="stylesheet" href="~/css/editdeletebutons.css" />
+</head>
+<style>
+    .card {
+        max-width: 80% !important; /* Kartın tam genişliğini koru */
+        min-width: 95% !important; /* Kartın minimum genişliğini belirle */
+        margin: auto !important;
+        transition: none !important; /* Genişlik değişikliği animasyonunu devre dışı bırak */
+    }
+
+    .custom-title {
+        font-size: 1.5rem; /* İstediğiniz boyutu buraya yazın */
+        font-weight: bold; /* Kalınlık eklemek için */
+        padding: 20px;
+    }
+
+</style>
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title custom-title">Ceza Yönetmelikleri</h2>
+        <div class="table-responsive">
+
+            <table id="example" class="dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Madde</th>
+                        <th>Fıkra</th>
+                        <th>Bent</th>
+                        <th>Yönetmelik</th>
+                        <th>Ceza Puanı</th>
+                        <th>Plaka Türü</th>
+                        <th>Anahtar Kelime</th>
+                        <th>Oluşturan Kullanıcı</th>
+                        <th>Oluşturma Tarihi</th>
+                        <th>Güncelleme Tarihi</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ceza in Model)
+                    {
+                        <tr>
+                            <td>@ceza.Id</td>
+                            <td>@ceza.Madde</td>
+                            <td>@ceza.Fikra</td>
+                            <td>@ceza.Bent</td>
+                            <td>@ceza.Yonetmelik</td>
+                            <td>@ceza.CezaPuani</td>
+                            <td>@ceza.PlakaTuru?.Name</td> <!-- Plaka Türü LookupList'teki Name alanı -->
+                            <td>@ceza.AnahtarKelime</td>
+                            <td>@ceza.OlusturanKullanici.FullName</td>
+                            <td>@ceza.OlusturmaTarihi.ToString("yyyy-MM-dd")</td>
+                            <td>@ceza.GuncellemeTarihi.ToString("yyyy-MM-dd")</td>
+                            <!-- <td>
+                                <a href="@Url.Action("Edit", "CezaYonetmelik", new { id = ceza.Id })" class="btn btn-warning">Düzenle</a>
+                                <a href="@Url.Action("Delete", "CezaYonetmelik", new { id = ceza.Id })" class="btn btn-danger" onclick="return confirm('Bu kaydı silmek istediğinizden emin misiniz?');">Sil</a>
+                            </td> -->
+                            <td>
+
+                                <form asp-action="Edit" method="get">
+                                    <input type="hidden" name="id" value="@ceza.Id" />
+                                    <button type="submit" class="btn btn-danger btn-icon">
+                                        <img src="~/images/edit.png" alt="Edit" class="icon-image" />
+                                    </button>
+                                </form>
+                                <form asp-action="Delete" method="post">
+                                    <input type="hidden" name="id" value="@ceza.Id" />
+                                    <button type="submit" class="btn btn-danger btn-icon">
+                                        <img src="~/images/delete.png" alt="Delete" class="icon-image" />
+                                    </button>
+                                    @* Antiforgery token ekliyoruz *@
+                                    @Html.AntiForgeryToken()
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Yeni Ceza Yönetmeliği Ekle Butonu -->
+            <a class="btn btn-success" id="createCezaBtn">Yeni Ceza Yönetmeliği Ekle</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Yapısı -->
+<div class="modal fade" id="createCezaModal" tabindex="-1" aria-labelledby="createCezaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCezaModalLabel">Ceza Yönetmelik Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createCezaModalContent">
+                <!-- Modal içeriği AJAX ile yüklenecek -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Küçük bir gecikme ile tablo tamamen yüklendikten sonra yalnızca sıralama ayarını güncelle
+
+            // 'Yeni Ceza Yönetmeliği Ekle' butonuna tıklanınca çalışır
+            $('#createCezaBtn').on('click', function (e) {
+                e.preventDefault(); // Varsayılan bağlantı davranışını engeller
+
+                // Modal içeriğini temizleyin
+                $('#createCezaModalContent').html('');
+
+                // Partial view'i AJAX ile modal içine yükleyin
+                $.get('@Url.Action("Create", "CezaYonetmelik")')
+                    .done(function (data) {
+                        $('#createCezaModalContent').html(data); // Partial view içeriğini modal'e yükle
+
+                        // Modal'ı aç
+                        var myModal = new bootstrap.Modal(document.getElementById('createCezaModal'));
+                        myModal.show();
+                    })
+                    .fail(function () {
+                        alert("İçerik yüklenirken bir hata oluştu.");
+                    });
+            });
+
+            // Modal kapandığında içeriği temizle
+            $('#createCezaModal').on('hidden.bs.modal', function () {
+                $('#createCezaModalContent').html(''); // Modal kapandığında içeriği temizle
+            });
+        });
+    </script>
+}
+
+
+<script src="/js/datatable-config.js" defer></script>
